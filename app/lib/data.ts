@@ -7,6 +7,7 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
+  PatientsTableType,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -238,5 +239,37 @@ export async function getUser(email: string) {
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function fetchPatients(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const patients = await sql<PatientsTableType>`
+      SELECT
+        patientdetails.p_id,
+        patientdetails.name,
+        patientdetails.age,
+        patientdetails.gender,
+        patientdetails.address
+      FROM patientdetails
+      WHERE
+        patientdetails.name ILIKE ${`%${query}%`} OR
+        patientdetails.age ILIKE ${`%${query}%`} OR
+        patientdetails.address ILIKE ${`%${query}%`} OR
+        patientdetails.p_id ILIKE ${`%${query}%`} 
+      ORDER BY patientdetails.p_id DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return patients.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patients.');
   }
 }

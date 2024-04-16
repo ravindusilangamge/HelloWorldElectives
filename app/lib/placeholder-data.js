@@ -180,9 +180,41 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
+const patientdetails = [
+  {
+    p_id: '990931003V',
+    name: 'Ravindu Ilangamge',
+    age: '25',
+    gender: 'male',
+    address: '607, Madamandiya, Panagoda, Homagama',
+  },
+  {
+    p_id: '980931003V',
+    name: 'Kavindu Rupesinghe',
+    age: '26',
+    gender: 'male',
+    address: '6, Keremulla road, Panagoda, Homagama',
+  },
+  {
+    p_id: '770931003V',
+    name: 'Yamuna Perera',
+    age: '47',
+    gender: 'female',
+    address: '33, watta road, Habarakada, Kaduwela',
+  },
+  {
+    p_id: '20021931003',
+    name: 'Upuli Saveena',
+    age: '23',
+    gender: 'female',
+    address: '607, Madamandiya, Panagoda, Homagama',
+  },
+];
+
 module.exports = {
   users,
   customers,
   invoices,
   revenue,
+  patientdetails,
 };

@@ -86,3 +86,11 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type PatientsTableType = {
+  p_id: string;
+  name: string;
+  age: string;
+  gender: string;
+  address: string;
+};
