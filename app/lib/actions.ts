@@ -13,13 +13,13 @@ const FormSchema = z.object({
     status: z.enum(['pending', 'paid']),
     date: z.string(),
   });
-const FormSchema1 = z.object({
-    id: z.string(),
-    name: z.string(),
-    age: z.string(),
-    gender: z.string(),
-    address: z.string(),
-  });
+// const FormSchema1 = z.object({
+//     id: z.string(),
+//     name: z.string(),
+//     age: z.string(),
+//     gender: z.string(),
+//     address: z.string(),
+//   });
 
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
@@ -50,28 +50,15 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function addPatient(formData: FormData) {
-    const { customerId, amount, status } = CreateInvoice.parse({
-        customerId: formData.get('customerId'),
-        amount: formData.get('amount'),
-        status: formData.get('status'),
-      });
-      const amountInCents = amount * 100;
-      const date = new Date().toISOString().split('T')[0];
-    try{
-    await sql`
-        INSERT INTO invoices (customer_id, amount, status, date)
-        VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-    `;}
-    catch (error) {
-        return {
-          message: 'Database Error: Failed to Create Invoice.',
-        };
-      }
-
-    revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
-      // Test it out:
-      //console.log(rawFormData);
+  const rawFormData = {
+    p_Id: formData.get('p_id'),
+    name: formData.get('name'),
+    age: formData.get('age'),
+    gender: formData.get('gender'),
+    adress: formData.get('address'),
+  };
+  // Test it out:
+  console.log(rawFormData);
 }
 
 export async function updateInvoice(id: string, formData: FormData) {

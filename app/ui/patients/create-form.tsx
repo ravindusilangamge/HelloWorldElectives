@@ -1,59 +1,67 @@
-import { PatientField } from '@/app/lib/definitions';
+import { PatientsTableType } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
   CheckIcon,
   ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createInvoice } from '@/app/lib/actions';
+import { addPatient } from '@/app/lib/actions';
 
-export default function Form({ patients }: { patients: PatientField[] }) {
+export default function Form() {
   return (
-    <form action={createInvoice}>
+    <form action={addPatient}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Customer Name */}
+        
+        {/* Invoice Amount */}
         <div className="mb-4">
-          <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-            Choose customer
+          <label htmlFor="p_id" className="mb-2 block text-sm font-medium">
+            Enter the Id no.
           </label>
-          <div className="relative">
-            <select
-              id="customer"
-              name="customerId"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select a customer
-              </option>
-              {patients.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="p_id"
+                name="p_id"
+                type="string"
+                placeholder="Enter Id"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
           </div>
         </div>
 
         {/* Invoice Amount */}
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Choose an amount
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+            Enter the name.
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="amount"
-                name="amount"
-                type="number"
-                step="0.01"
-                placeholder="Enter USD amount"
+                id="name"
+                name="name"
+                type="string"
+                placeholder="Enter name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+        {/* Invoice Amount */}
+        <div className="mb-4">
+          <label htmlFor="age" className="mb-2 block text-sm font-medium">
+            Enter the age.
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="age"
+                name="age"
+                type="string"
+                placeholder="Enter age"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
             </div>
           </div>
         </div>
@@ -61,52 +69,71 @@ export default function Form({ patients }: { patients: PatientField[] }) {
         {/* Invoice Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
-            Set the invoice status
+            Gender?
           </legend>
           <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
-                  id="pending"
-                  name="status"
+                  id="male"
+                  name="gender"
                   type="radio"
-                  value="pending"
+                  value="male"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="pending"
+                  htmlFor="male"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
                 >
-                  Pending <ClockIcon className="h-4 w-4" />
+                   Male {/* <ClockIcon className="h-4 w-4" /> */}
                 </label>
               </div>
               <div className="flex items-center">
                 <input
-                  id="paid"
-                  name="status"
+                  id="female"
+                  name="gender"
                   type="radio"
-                  value="paid"
+                  value="female"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                  htmlFor="female"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
                 >
-                  Paid <CheckIcon className="h-4 w-4" />
+                   Female {/* <CheckIcon className="h-4 w-4" /> */}
                 </label>
               </div>
             </div>
           </div>
         </fieldset>
+
+      {/* Invoice Amount */}
+      <div className="mb-4">
+          <label htmlFor="address" className="mb-2 block text-sm font-medium">
+            Enter the address.
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="address"
+                name="address"
+                type="string"
+                placeholder="Enter address"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+        </div>
+
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/invoices"
+          href="/dashboard/patients"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">Add Patient</Button>
       </div>
     </form>
   );

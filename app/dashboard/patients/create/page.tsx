@@ -1,9 +1,9 @@
 import Form from '@/app/ui/patients/create-form';
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
-import { fetchPatients1 } from '@/app/lib/data';
+//import { fetchPatients1, fetchCustomers } from '@/app/lib/data';
  
 export default async function Page() {
-  const patients = await fetchPatients1();
+  //const patients = await fetchPatients1();
  
   return (
     <main>
@@ -17,7 +17,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form patients={patients} />
+      <Form/>
     </main>
   );
 }
