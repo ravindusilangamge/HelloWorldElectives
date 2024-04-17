@@ -13,16 +13,18 @@ const FormSchema = z.object({
     status: z.enum(['pending', 'paid']),
     date: z.string(),
   });
-// const FormSchema1 = z.object({
-//     id: z.string(),
-//     name: z.string(),
-//     age: z.string(),
-//     gender: z.string(),
-//     address: z.string(),
-//   });
+const FormSchema1 = z.object({
+    p_id: z.string(),
+    name: z.string(),
+    age: z.string(),
+    //gender: z.enum(['male', 'female']),
+    gender: z.string(),
+    address: z.string(),
+  });
 
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+  const AddPatient = FormSchema1.omit({});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -50,15 +52,23 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function addPatient(formData: FormData) {
-  const rawFormData = {
-    p_Id: formData.get('p_id'),
+  const { p_id, name, age, gender, address } = AddPatient.parse({
+    p_id: formData.get('p_id'),
     name: formData.get('name'),
     age: formData.get('age'),
     gender: formData.get('gender'),
-    adress: formData.get('address'),
-  };
+    address: formData.get('address'),
+  });
   // Test it out:
-  console.log(rawFormData);
+  //console.log(rawFormData);
+
+  await sql`
+    INSERT INTO patientdetails (p_id, name, age, gender, address)
+    VALUES (${p_id}, ${name}, ${age}, ${gender}, ${address})
+  `;
+
+  revalidatePath('/dashboard/patients');
+  redirect('/dashboard/patients');
 }
 
 export async function updateInvoice(id: string, formData: FormData) {
