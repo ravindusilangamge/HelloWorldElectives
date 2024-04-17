@@ -274,3 +274,24 @@ export async function fetchPatients(
   }
 }
 
+export async function fetchPatientsPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM patientdetails
+    WHERE
+      patientdetails.p_id ILIKE ${`%${query}%`} OR
+      patientdetails.name ILIKE ${`%${query}%`} OR
+      patientdetails.age ILIKE ${`%${query}%`} OR
+      patientdetails.gender ILIKE ${`%${query}%`} OR
+      patientdetails.address ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of patients.');
+  }
+}
+
