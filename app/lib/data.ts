@@ -312,7 +312,6 @@ export async function fetchPatientById(id: string) {
 
     const patient = data.rows.map((patient) => ({
       ...patient,
-      // Convert amount from cents to dollars
     }));
     console.log(patient);
 
