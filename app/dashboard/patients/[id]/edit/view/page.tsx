@@ -27,16 +27,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       {/* <Form patient={patient} /> */}
       <OverviewCard patient = {patient}/>
       <br></br>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: 'Patients', href: '/dashboard/patients' },
-          {
-            label: 'Visits',
-            href: `/dashboard/patients/${id}/edit/view`,
-            active: true,
-          },
-        ]}
-      />
+      <h1>Visit Details</h1>
+      
       <VisitTable patient1 = {patient}/>
     </main>
   );
