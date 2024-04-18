@@ -262,6 +262,7 @@ export async function fetchPatients(
         patientdetails.name ILIKE ${`%${query}%`} OR
         patientdetails.age ILIKE ${`%${query}%`} OR
         patientdetails.address ILIKE ${`%${query}%`} OR
+        patientdetails.gender ILIKE ${`%${query}%`} OR
         patientdetails.p_id ILIKE ${`%${query}%`} 
       ORDER BY patientdetails.p_id DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
@@ -292,6 +293,33 @@ export async function fetchPatientsPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of patients.');
+  }
+}
+
+export async function fetchPatientById(id: string) {
+  noStore();
+  try {
+    const data = await sql<PatientsTableType>`
+      SELECT
+        patientdetails.p_id,
+        patientdetails.name,
+        patientdetails.age,
+        patientdetails.gender,
+        patientdetails.address
+      FROM patientdetails
+      WHERE patientdetails.p_id = ${id};
+    `;
+
+    const patient = data.rows.map((patient) => ({
+      ...patient,
+      // Convert amount from cents to dollars
+    }));
+    console.log(patient);
+
+    return patient[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient.');
   }
 }
 

@@ -25,6 +25,7 @@ const FormSchema1 = z.object({
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
+  const UpdatePatient = FormSchema1.omit({});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -121,4 +122,38 @@ export async function updateInvoice(id: string, formData: FormData) {
       }
       throw error;
     }
+  }
+
+  export async function updatePatient(id: string, formData: FormData) {
+    const { p_id, name, age, gender, address } = UpdatePatient.parse({
+      p_id: formData.get('p_id'),
+      name: formData.get('name'),
+      age: formData.get('age'),
+      gender: formData.get('gender'),
+      address: formData.get('address'),
+    });
+
+    try {
+    await sql`
+      UPDATE patientdetails
+      SET p_id = ${p_id}, name = ${name}, age = ${age}, gender = ${gender}, address = ${address}
+      WHERE p_id = ${id}
+    `;
+    } catch (error) {
+    return { message: 'Database Error: Failed to Update Patient.' };
+  }
+   
+    revalidatePath('/dashboard/patients');
+    redirect('/dashboard/patients');
+  }
+
+  export async function deletePatient(id: string) {
+    //throw new Error('Failed to Delete Invoice');
+    try {
+    await sql`DELETE FROM patientdetails WHERE p_id = ${id}`;
+    revalidatePath('/dashboard/patients');
+    return { message: 'Deleted patient.' };
+    } catch (error) {
+    return { message: 'Database Error: Failed to Delete Patient.' };
+  }
   }

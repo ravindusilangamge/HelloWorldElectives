@@ -1,5 +1,5 @@
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-import InvoiceStatus from '@/app/ui/invoices/status';
+import { UpdatePatient, DeletePatient } from '@/app/ui/patients/buttons';
+//import InvoiceStatus from '@/app/ui/invoices/status';
 import { fetchPatients } from '@/app/lib/data';
 
 export default async function PatientsTable({
@@ -37,8 +37,8 @@ export default async function PatientsTable({
                     <p>{patient.address}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={patient.p_id} />
-                    <DeleteInvoice id={patient.p_id} />
+                    <UpdatePatient id={patient.p_id} />
+                    {/* <DeletePatient id={patient.p_id} /> */}
                   </div>
                 </div>
               </div>
@@ -92,8 +92,8 @@ export default async function PatientsTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={patient.p_id} />
-                      <DeleteInvoice id={patient.p_id} />
+                      <UpdatePatient id={patient.p_id} />
+                      <DeletePatient id={patient.p_id} />
                     </div>
                   </td>
                 </tr>
