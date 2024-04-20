@@ -3,10 +3,12 @@ import { Button } from '@/app/ui/button';
 import { PatientsTableType } from '@/app/lib/definitions';
 import { addVisit } from '@/app/lib/actions';
 import { fetchPatientById } from '@/app/lib/data';
+import { any } from 'zod';
 
-export default function Form(pat_id: {p_id: string}) {
-    const patient_id = pat_id.p_id;
-    const pat_details = fetchPatientById(patient_id);
+export default function Form(p_id: {p_id: string}, patient_details: {patient_details: PatientsTableType[]}) {
+    const patient_id = p_id.p_id;
+    const pat_details = patient_details;
+    console.log(patient_id);
     return(
         <form action={addVisit}>
             <div className="mb-4">
@@ -25,7 +27,7 @@ export default function Form(pat_id: {p_id: string}) {
                     />
                     </div>
                 </div>
-                <p>Age: {}</p>
+                <p>Age: {patient_id}</p>
             </div>
         </form>
     );

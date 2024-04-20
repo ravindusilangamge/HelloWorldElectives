@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <h1>Visit Details</h1>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search visits..." />
-        <AddVisit id = {id}/>
+        <AddVisit id = {patient.p_id}/>
       </div>
       
       <VisitTable patient1 = {patient1}/>
