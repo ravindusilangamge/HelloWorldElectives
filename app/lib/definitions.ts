@@ -94,3 +94,17 @@ export type PatientsTableType = {
   gender: string;
   address: string;
 };
+
+export type VisitsTable = {
+  id: string;
+  patient_id: string;
+  date: string;
+  pcompl: string;
+  hpc: string;
+  pmhx: string;
+  allergy: string;
+  examination: string;
+  investigations_sofar: string;
+  prescribed_med: string;
+  investigations_ordered: string;
+};

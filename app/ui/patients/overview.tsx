@@ -8,17 +8,17 @@ export default async function OverviewCard({
 }: {
   patient: PatientsTableType;
 }) {
-  const fetchPatientdetails = await fetchPatientById(patient.p_id);
+  //const fetchPatientdetails = await fetchPatientById(patient.p_id);
 
   return(
     <>
     <Card 
       //title="ID" 
-      value={(fetchPatientdetails).p_id }
-      value2={fetchPatientdetails.name} 
-      value3={fetchPatientdetails.age}
-      value4={fetchPatientdetails.gender}
-      value5={fetchPatientdetails.address}
+      value={patient.p_id }
+      value2={patient.name} 
+      value3={patient.age}
+      value4={patient.gender}
+      value5={patient.address}
       type="p_id" 
     />
     {/* <Card title="Name" value={(fetchPatientdetails).name} type="name" />

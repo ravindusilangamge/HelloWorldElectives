@@ -21,11 +21,17 @@ const FormSchema1 = z.object({
     gender: z.string(),
     address: z.string(),
   });
+  const FormSchema2 = z.object({
+    id: z.string(),
+    date: z.string(),
+    p_id: z.string(),
+  });
 
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
   const UpdatePatient = FormSchema1.omit({});
+  const AddVisit = FormSchema2.omit({});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -156,4 +162,22 @@ export async function updateInvoice(id: string, formData: FormData) {
     } catch (error) {
     return { message: 'Database Error: Failed to Delete Patient.' };
   }
+  }
+
+  export async function addVisit(formData: FormData) {
+    const { id, date, p_id } = AddVisit.parse({
+      id: formData.get('id'),
+      date: formData.get('date'), 
+      p_id: formData.get('p_id'),
+    });
+    // Test it out:
+    //console.log(rawFormData);
+  
+    await sql`
+      INSERT INTO visits (p_id, date)
+      VALUES (${p_id}, ${date})
+    `;
+  
+    revalidatePath('/dashboard/patients');
+    redirect('/dashboard/patients');
   }

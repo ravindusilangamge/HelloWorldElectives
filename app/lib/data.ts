@@ -8,6 +8,7 @@ import {
   User,
   Revenue,
   PatientsTableType,
+  VisitsTable,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -322,3 +323,35 @@ export async function fetchPatientById(id: string) {
   }
 }
 
+export async function fetchVisitsById(id: string) {
+  noStore();
+  try {
+    const data = await sql<VisitsTable>`
+      SELECT
+        visits.id,
+        visits.patient_id,
+        visits.date,
+        visits.pcompl,
+        visits.hpc,
+        visits.pmhx,
+        visits.allergy,
+        visits.examination,
+        visits.investigations_sofar,
+        visits.prescribed_med,
+        visits.investigations_ordered
+      FROM visits
+      WHERE visits.patient_id = ${id}
+      ORDER BY visits.date DESC;
+    `;
+
+    // const patient = data.rows.map((patient) => ({
+    //   ...patient,
+    // }));
+    console.log(data);
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient visits.');
+  }
+}
