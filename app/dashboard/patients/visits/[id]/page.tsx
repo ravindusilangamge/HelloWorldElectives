@@ -1,8 +1,11 @@
+
 import Form from '@/app/ui/patients/visit-form';
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import { fetchVisitsById, fetchPatientById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { PatientsTableType, VisitsTable } from '@/app/lib/definitions';
+import OverviewCard from '@/app/ui/patients/overview';
+
  
 export default async function Page({ params }: { params: { id: string } }) {
   const p_id = params.id;
@@ -28,7 +31,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           
         ]}
       />
-      <Form p_id={p_id}/>
+      <OverviewCard patient = {patient[0]}/>
+      <Form patient_id = {p_id} patient_details={patient}/>
     </main>
   );
 }

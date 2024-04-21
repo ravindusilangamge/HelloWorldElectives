@@ -58,25 +58,25 @@ export function Card({
       
       <p
         className={`${lusitana.className}
-          truncate rounded-xl bg-white px-4 py-1 text-left text-xl`}
+          truncate rounded-xl bg-white px-4 py-1 text-left text-md font-medium`}
       >
         ID: {value} 
       </p>
       <p
           className={`${lusitana.className}
-            truncate rounded-xl bg-white px-4 py-1 text-left text-xl`}
+            truncate rounded-xl bg-white px-4 py-1 text-left text-md font-medium`}
         >
           Age: {value3}
         </p>
         <p
           className={`${lusitana.className}
-            truncate rounded-xl bg-white px-4 py-1 text-left text-xl`}
+            truncate rounded-xl bg-white px-4 py-1 text-left text-md font-medium`}
         >
-          Gender: {value4} 
+        {value4} 
         </p>
         <p
           className={`${lusitana.className}
-            truncate rounded-xl bg-white px-4 py-1 text-left text-xl`}
+            truncate rounded-xl bg-white px-4 py-1 text-left text-md font-medium`}
         >
           Address: {value5} 
         </p>

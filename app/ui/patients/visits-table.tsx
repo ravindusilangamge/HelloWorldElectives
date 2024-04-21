@@ -5,8 +5,10 @@ import { formatDateToLocal,  } from '@/app/lib/utils';
 export default async function VisitTable({patient1}: {patient1: VisitsTable[];}){
     //const patients = await fetchVisitsById(patient1);
     return(
+      <div className="mt-6 overflow-x-auto">
         <div className="mt-6 flow-root">
         <div className="inline-block min-w-full align-middle">
+        
           <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
             <div className="md:hidden">
               {patient1?.map((visit) => (
@@ -40,31 +42,31 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
             <table className="hidden min-w-full text-gray-900 md:table">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Date
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     PC
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     HPC
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     PMHx
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Allergy
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Examination
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Investigations Done
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Treatment
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Investigations ordered
                   </th>
                 </tr>
@@ -75,35 +77,35 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                     key={visit.id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <td className="whitespace-normal py-3 pl-6 pr-3 max-w-xs">
                       <div className="flex items-center gap-3">
                         <p>{formatDateToLocal(visit.date)}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <td className="whitespace-normal py-3 pl-6 pr-3 max-w-xs">
                       <div className="flex items-center gap-3">
                         <p>{visit.pcompl}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {visit.hpc}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.pmhx)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.allergy)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.examination)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.investigations_sofar)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.prescribed_med)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.investigations_ordered)}
                     </td>
                     {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
@@ -118,6 +120,7 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
             </table>
           </div>
         </div>
+      </div>
       </div>
     );
   }

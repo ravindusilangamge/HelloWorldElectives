@@ -34,15 +34,17 @@ export default async function Page({ params }: { params: { id: string } }) {
         ]}
       />
       {/* <Form patient={patient} /> */}
-      <OverviewCard patient = {patient}/>
-      <br></br>
-      <h1>Visit Details</h1>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+      <div className='mb-4'><OverviewCard patient = {patient}/></div>
+      {/* <h1 className='mt-8'>Visit Details</h1>   */}
+      <div className="mt-1 flex items-center justify-between gap-2 md:mt-4">
         <Search placeholder="Search visits..." />
         <AddVisit id = {patient.p_id}/>
       </div>
+
+      <div className="mt-1 flex">
+        <VisitTable patient1 = {patient1}/>
+      </div>
       
-      <VisitTable patient1 = {patient1}/>
     </main>
   );
 }
