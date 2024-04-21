@@ -26,7 +26,7 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                   </div>
                   <div className="flex w-full items-center justify-between pt-4">
                     <div>
-                    <p className="text-sm text-gray-500">{visit.pcompl}</p>
+                      <p className="text-sm text-gray-500">{visit.pcompl}</p>
                       <p className="text-sm font-medium">{visit.hpc}</p>
                       <p className="text-sm text-gray-500">{visit.pmhx}</p>
                       <p className="text-sm text-gray-500">{visit.allergy}</p>
@@ -57,16 +57,16 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                   <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Allergy
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Examination
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Investigations Done
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Treatment
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Investigations ordered
                   </th>
                 </tr>
