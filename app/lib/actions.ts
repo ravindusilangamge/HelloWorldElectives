@@ -20,7 +20,7 @@ const FormSchema1 = z.object({
     //gender: z.enum(['male', 'female']),
     gender: z.string(),
     address: z.string(),
-    birthdate:z.string(),
+    birthdate: z.string(),
     phonenumber: z.string(),
   });
   const FormSchema2 = z.object({
@@ -41,7 +41,7 @@ const FormSchema1 = z.object({
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
   const UpdatePatient = FormSchema1.omit({});
-  const AddVisit = FormSchema2.omit({id: true, date: true});
+  const AddVisit = FormSchema2.omit({id: true});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -179,9 +179,9 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function addVisit(formData: FormData) {
-    const {p_id, pCompl, hpc, pmhx, allergy, examination, investigations_sofar, prescribed_med, investigations_ordered} = AddVisit.parse({
+    const {p_id, date, pCompl, hpc, pmhx, allergy, examination, investigations_sofar, prescribed_med, investigations_ordered} = AddVisit.parse({
       // id: formData.get('id'),
-      //date: formData.get('date'), 
+      date: formData.get('date'), 
       p_id: formData.get('p_id'),
       pCompl: formData.get('pCompl'),
       hpc: formData.get('hpc'),
@@ -193,8 +193,7 @@ export async function updateInvoice(id: string, formData: FormData) {
       investigations_ordered: formData.get('investigations_ordered'),
 
     });
-    // Test it out:
-    const date = new Date().toISOString().split('T')[0];
+    
     console.log(FormData);
   
     await sql`

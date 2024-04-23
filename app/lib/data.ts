@@ -360,3 +360,24 @@ export async function fetchVisitsById(id: string) {
     throw new Error('Failed to fetch patient visits.');
   }
 }
+
+export async function fetchVisitsPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM visits
+    WHERE
+      visits.date ILIKE ${`%${query}%`} OR
+      visits.pCompl ILIKE ${`%${query}%`} OR
+      visits.hpc ILIKE ${`%${query}%`} OR
+      visits.prescribed_med ILIKE ${`%${query}%`} OR
+      visits.investigations_ordered ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of patients.');
+  }
+}

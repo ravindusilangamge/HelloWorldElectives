@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { PatientsTableType } from '@/app/lib/definitions';
@@ -10,40 +10,34 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 
 export default function Form( values: {patient_id: string, patient_details: PatientsTableType[]}) {
-    //const patient_details1 = values.patient_details;
     const {patient_details, patient_id} = values;
     console.log("these are patient details," ,{patient_details});
-
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    //const [startDate, setStartDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
     return(
     <div>
-        {/* <p>Age: {patient_details[0].age}</p>  */}
         <form action={addVisit}>
-                <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                {/* <div className="mb-4">
-                    <label htmlFor="date" className="mb-2 block text-sm font-medium">
-                        Select Date:
-                    </label>
-                    <DatePicker // Changed to DatePicker
-                        id="date"
-                        selected={startDate || new Date()}
-                        onChange={(date) => setStartDate(date)}
-                        placeholderText="Select Date"
-                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
-                        dateFormat="dd/MM/yyyy"
+                <div className="rounded-md bg-gray-50 p-4 md:p-6"> 
+                    <input
+                        id="p_id"
+                        name="p_id"
+                        type="hidden"
+                        defaultValue={patient_id}
                     />
-                </div> */}
-                    
-                            <input
-                                id="p_id"
-                                name="p_id"
-                                type="hidden"
-                                defaultValue={patient_id}
-                            />
-                    
-
+                    <div className='mb-4'>
+                    <label htmlFor="date" className="block text-sm font-medium mb-2">
+                        Visit Date
+                    </label>
+                    <>{console.log(selectedDate)}</>
+                    <DatePicker
+                        id="date"
+                        name='date'
+                        selected={selectedDate || new Date()}
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        className="block w-full rounded-md border border-gray-200 py-2 px-4 text-sm outline-2 placeholder:text-gray-500"
+                    />
+                </div>
                     <div className="mb-4">
                         <label htmlFor="p_id" className="mb-2 block text-sm font-medium">
                             Presenting Complain?
@@ -54,7 +48,6 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                 id="pCompl"
                                 name="pCompl"
                                 type="string"
-                                //defaultValue={patient_id}
                                 placeholder="Enter Presenting Complain..."
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -166,7 +159,7 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                 <textarea
                                     id="investigations_ordered"
                                     name="investigations_ordered"
-                                    placeholder="Investigations_ordered..."
+                                    placeholder="Investigations ordered..."
                                     className="peer block w-full rounded-md border border-gray-200 py-2 px-4 text-sm outline-2 placeholder:text-gray-500"
                                     rows={2} // Specify the number of visible text lines
                                 />
