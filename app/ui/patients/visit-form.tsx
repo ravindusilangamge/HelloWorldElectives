@@ -48,7 +48,7 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                         <label htmlFor="p_id" className="mb-2 block text-sm font-medium">
                             Presenting Complain?
                         </label>
-                        <div className="relative mt-2 rounded-md">
+                        <div className="relative mt-2 mb-4 rounded-md">
                             <div className="relative">
                             <input
                                 id="pCompl"

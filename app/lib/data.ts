@@ -255,16 +255,19 @@ export async function fetchPatients(
       SELECT
         patientdetails.p_id,
         patientdetails.name,
-        patientdetails.age,
+        
         patientdetails.gender,
-        patientdetails.address
+        patientdetails.address,
+        patientdetails.phonenumber,
+        patientdetails.birthdate
       FROM patientdetails
       WHERE
         patientdetails.name ILIKE ${`%${query}%`} OR
-        patientdetails.age ILIKE ${`%${query}%`} OR
+        
         patientdetails.address ILIKE ${`%${query}%`} OR
         patientdetails.gender ILIKE ${`%${query}%`} OR
-        patientdetails.p_id ILIKE ${`%${query}%`} 
+        patientdetails.p_id ILIKE ${`%${query}%`} OR
+        patientdetails.phonenumber ILIKE ${`%${query}%`}
       ORDER BY patientdetails.p_id DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -306,7 +309,9 @@ export async function fetchPatientById(id: string) {
         patientdetails.name,
         patientdetails.age,
         patientdetails.gender,
-        patientdetails.address
+        patientdetails.address,
+        patientdetails.birthdate,
+        patientdetails.phonenumber
       FROM patientdetails
       WHERE patientdetails.p_id = ${id};
     `;

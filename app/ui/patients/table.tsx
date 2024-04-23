@@ -1,6 +1,29 @@
 import { UpdatePatient, DeletePatient, ViewPatient } from '@/app/ui/patients/buttons';
 //import InvoiceStatus from '@/app/ui/invoices/status';
 import { fetchPatients } from '@/app/lib/data';
+import { formatDateToLocal } from '@/app/lib/utils';
+
+function calculateAge(birthDate: Date | null): { years: number | null; months: number | null } {
+  if (!birthDate) {
+    return { years: null, months: null };
+  }
+
+  const today = new Date();
+  const yearsDiff = today.getFullYear() - birthDate.getFullYear();
+  const monthsDiff = today.getMonth() - birthDate.getMonth();
+  
+  let years = yearsDiff;
+  let months = monthsDiff;
+
+  // Adjust years and months if necessary
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  return { years, months };
+}
+
 
 export default async function PatientsTable({
   query,
@@ -26,7 +49,11 @@ export default async function PatientsTable({
                     <div className="mb-2 flex items-center">
                       <p>{patient.name}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{patient.age}</p>
+                    {patient.birthdate ? (
+                    <>
+                      {calculateAge(new Date(patient.birthdate)).years} years {calculateAge(new Date(patient.birthdate)).months} months
+                    </>
+                    ) : null}
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
@@ -34,6 +61,8 @@ export default async function PatientsTable({
                     <p className="text-xl font-medium">
                       {patient.gender}
                     </p>
+                    <p>{patient.phonenumber}</p>
+                    {/* <p>{formatDateToLocal(patient.birthdate)}</p> */}
                     <p>{patient.address}</p>
                   </div>
                   <div className="flex justify-end gap-2">
@@ -60,6 +89,12 @@ export default async function PatientsTable({
                   Gender
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
+                  Phone number
+                </th>
+                {/* <th scope="col" className="px-3 py-5 font-medium">
+                  Birthdate
+                </th> */}
+                <th scope="col" className="px-3 py-5 font-medium">
                   Address
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -82,11 +117,21 @@ export default async function PatientsTable({
                     {patient.name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {patient.age}
+                  {patient.birthdate ? (
+                      <>
+                        {calculateAge(new Date(patient.birthdate)).years} years {calculateAge(new Date(patient.birthdate)).months} months
+                      </>
+                    ) : null}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {patient.gender}
                   </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {patient.phonenumber}
+                  </td>
+                  {/* <td className="whitespace-nowrap px-3 py-3">
+                    {formatDateToLocal(patient.birthdate)}
+                  </td> */}
                   <td className="whitespace-nowrap px-3 py-3">
                     {patient.address}
                   </td>
@@ -106,3 +151,5 @@ export default async function PatientsTable({
     </div>
   );
 }
+
+

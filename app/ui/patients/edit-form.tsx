@@ -4,18 +4,22 @@ import { PatientsTableType } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updatePatient } from '@/app/lib/actions';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from 'react';
 
 export default function Form({
   patient,
 }: {
   patient: PatientsTableType;
 }) {
+  const [startDate, setStartDate] = useState<Date | null>(new Date(patient.birthdate));
   const updatePatientWithId = updatePatient.bind(null, patient.p_id);
   return (
     <form action={updatePatientWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         
-        {/* Invoice Amount */}
+        {/* Id */}
         <div className="mb-4">
           <label htmlFor="p_id" className="mb-2 block text-sm font-medium">
             Enter the Id no.
@@ -34,7 +38,7 @@ export default function Form({
           </div>
         </div>
 
-        {/* Invoice Amount */}
+        {/* Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
             Enter the name.
@@ -53,26 +57,30 @@ export default function Form({
           </div>
         </div>
 
-        {/* Invoice Amount */}
+        {/* Birthdate */}
         <div className="mb-4">
-          <label htmlFor="age" className="mb-2 block text-sm font-medium">
-            Enter the age.
+          <label htmlFor="birthdate" className="mb-2 block text-sm font-medium">
+            Enter the birthday.
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
-                id="age"
-                name="age"
-                type="string"
-                defaultValue={patient.age}
-                placeholder="Enter age"
+              <DatePicker
+                id="birthdate"
+                name="birthdate"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)} // Handles both setting date and clearing date
+                showYearDropdown
+                dateFormat="yyyy-MM-dd"
+                yearDropdownItemNumber={119}
+                scrollableYearDropdown
+                placeholderText="YYYY-MM-DD"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
           </div>
         </div>
 
-        {/* Invoice Status */}
+        {/* Gender Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Gender?
@@ -114,6 +122,24 @@ export default function Form({
             </div>
           </div>
         </fieldset>
+
+        <div className="mb-4 mt-4">
+          <label htmlFor="phonenumber" className="mb-2 block text-sm font-medium">
+            Enter the Phone number.
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="phonenumber"
+                name="phonenumber"
+                type="string"
+                defaultValue={patient.phonenumber}
+                placeholder="Enter the phone number..."
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+        </div>
 
       {/* Invoice Amount */}
       <div className="mb-4">

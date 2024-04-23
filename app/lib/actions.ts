@@ -16,10 +16,12 @@ const FormSchema = z.object({
 const FormSchema1 = z.object({
     p_id: z.string(),
     name: z.string(),
-    age: z.string(),
+    //age: z.string(),
     //gender: z.enum(['male', 'female']),
     gender: z.string(),
     address: z.string(),
+    birthdate:z.string(),
+    phonenumber: z.string(),
   });
   const FormSchema2 = z.object({
     id: z.string(),
@@ -67,19 +69,21 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function addPatient(formData: FormData) {
-  const { p_id, name, age, gender, address } = AddPatient.parse({
+  const { p_id, name, gender, address, phonenumber, birthdate } = AddPatient.parse({
     p_id: formData.get('p_id'),
     name: formData.get('name'),
-    age: formData.get('age'),
+    //age: formData.get('age'),
     gender: formData.get('gender'),
+    phonenumber: formData.get('phonenumber'),
     address: formData.get('address'),
+    birthdate: formData.get('birthdate'),
   });
   // Test it out:
   //console.log(rawFormData);
 
   await sql`
-    INSERT INTO patientdetails (p_id, name, age, gender, address)
-    VALUES (${p_id}, ${name}, ${age}, ${gender}, ${address})
+    INSERT INTO patientdetails (p_id, name, gender, address, phonenumber, birthdate)
+    VALUES (${p_id}, ${name}, ${gender}, ${address}, ${phonenumber}, ${birthdate})
   `;
 
   revalidatePath('/dashboard/patients');
@@ -139,18 +143,20 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function updatePatient(id: string, formData: FormData) {
-    const { p_id, name, age, gender, address } = UpdatePatient.parse({
+    const { p_id, name, gender, address, phonenumber, birthdate } = UpdatePatient.parse({
       p_id: formData.get('p_id'),
       name: formData.get('name'),
       age: formData.get('age'),
       gender: formData.get('gender'),
       address: formData.get('address'),
+      phonenumber: formData.get('phonenumber'),
+      birthdate: formData.get('birthdate'),
     });
 
     try {
     await sql`
       UPDATE patientdetails
-      SET p_id = ${p_id}, name = ${name}, age = ${age}, gender = ${gender}, address = ${address}
+      SET p_id = ${p_id}, name = ${name}, gender = ${gender}, address = ${address}, phonenumber = ${phonenumber}, birthdate = ${birthdate}
       WHERE p_id = ${id}
     `;
     } catch (error) {

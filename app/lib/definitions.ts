@@ -90,9 +90,11 @@ export type InvoiceForm = {
 export type PatientsTableType = {
   p_id: string;
   name: string;
-  age: string;
+  // age: string;
   gender: string;
   address: string;
+  phonenumber: string;
+  birthdate: string;
 };
 
 export type VisitsTable = {

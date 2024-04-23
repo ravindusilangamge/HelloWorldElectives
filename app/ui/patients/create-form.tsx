@@ -1,3 +1,5 @@
+
+'use client'
 //import { PatientsTableType } from '@/app/lib/definitions';
 import Link from 'next/link';
 // import {
@@ -6,8 +8,13 @@ import Link from 'next/link';
 // } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { addPatient } from '@/app/lib/actions';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from 'react';
 
 export default function Form() {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+
   return (
     <form action={addPatient}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -51,27 +58,32 @@ export default function Form() {
         {/* Invoice Amount */}
         <div className="mb-4">
           <label htmlFor="age" className="mb-2 block text-sm font-medium">
-            Enter the age.
+            Enter the birthday.
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
-                id="age"
-                name="age"
-                type="string"
-                placeholder="Enter age"
+              <DatePicker
+                id="birthdate"
+                name="birthdate"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)} // Handles both setting date and clearing date
+                showYearDropdown
+                dateFormat="yyyy-MM-dd"
+                yearDropdownItemNumber={119}
+                scrollableYearDropdown
+                placeholderText="YYYY-MM-DD"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
           </div>
         </div>
 
-        {/* Invoice Status */}
+        {/* Gender Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Gender?
           </legend>
-          <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
+          <div className="rounded-md mb-4 border border-gray-200 bg-white px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -106,6 +118,23 @@ export default function Form() {
             </div>
           </div>
         </fieldset>
+
+        <div className="mb-4">
+          <label htmlFor="age" className="mb-2 block text-sm font-medium">
+            Enter the Phone number.
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="phonenumber"
+                name="phonenumber"
+                type="string"
+                placeholder="Enter the phone number..."
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+        </div>
 
       {/* Invoice Amount */}
       <div className="mb-4">

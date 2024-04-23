@@ -5,6 +5,8 @@ import { fetchPatientById, fetchVisitsById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import Search from '@/app/ui/search';
 import { AddVisit } from '@/app/ui/patients/buttons';
+import { Suspense } from 'react';
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
  
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -20,6 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       if (!patient1) {
         notFound();
       }
+      // console.log('This is the birthdate at page:', patient.birthdate);
 
   return (
     <main>

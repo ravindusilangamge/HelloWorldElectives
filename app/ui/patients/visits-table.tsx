@@ -1,15 +1,18 @@
 import { fetchPatientById, fetchVisitsById } from '@/app/lib/data';
 import { PatientsTableType, VisitsTable } from '@/app/lib/definitions';
 import { formatDateToLocal,  } from '@/app/lib/utils';
+import React from 'react';
 
 export default async function VisitTable({patient1}: {patient1: VisitsTable[];}){
     //const patients = await fetchVisitsById(patient1);
     return(
-      <div className="mt-6 overflow-x-auto">
-        <div className="mt-6 flow-root">
+      <div className="mt-1 overflow-x-auto">
+        <div className="mt-2 flow-root">
         <div className="inline-block min-w-full align-middle">
         
           <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          {patient1 && patient1.length > 0 ? (
+            <React.Fragment>
             <div className="md:hidden">
               {patient1?.map((visit) => (
                 <div
@@ -118,6 +121,12 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                 ))}
               </tbody>
             </table>
+            </React.Fragment>
+          ) : (
+            <div className="text-center text-gray-500">
+              No data available.
+            </div>
+            )}
           </div>
         </div>
       </div>
