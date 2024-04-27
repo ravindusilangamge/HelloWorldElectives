@@ -6,8 +6,9 @@ import { addVisit } from '@/app/lib/actions';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Combobox } from '@headlessui/react'
+import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
+import { string } from 'zod';
 
 let totalPrescription = '';
 
@@ -209,6 +210,14 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                     aria-hidden="true"
                                 />
                             </Combobox.Button>
+                            <Transition
+                                enter="transition duration-100 ease-out"
+                                enterFrom="transform scale-95 opacity-0"
+                                enterTo="transform scale-100 opacity-100"
+                                leave="transition duration-75 ease-out"
+                                leaveFrom="transform scale-100 opacity-100"
+                                leaveTo="transform scale-95 opacity-0"
+      >
                             <Combobox.Options
                                 className='focus-within:ring-1 focus-within:ring-blue-500 max-w-sm'
                             >
@@ -222,7 +231,7 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                 </Combobox.Option>
                                 ))}
                             </Combobox.Options>
-                            
+                            </Transition>
                         </Combobox>
                         <label className='pl-4 relative'>Dose</label>
                         <input
@@ -253,11 +262,16 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                         </button>
                         </div>
                         <div>
-                            <label >
+                            <label className='flex mt-4'>
                                 Prescription: 
                             </label>
-                            <textarea id='prescribed_med' name='prescribed_med' 
-                            className='peer block w-full rounded-md border border-gray-200 py-2 px-4 text-sm outline-2 placeholder:text-gray-500' value='' rows={5}/>
+                            <textarea 
+                                id='prescribed_med' 
+                                name='prescribed_med' 
+                                className='peer block w-full rounded-md border border-gray-200 py-2 px-4 text-sm outline-2 placeholder:text-gray-500' 
+                                defaultValue = {totalPrescription}
+                                rows={5}
+                            />
                         </div>
                     </div>
 
