@@ -36,12 +36,39 @@ const FormSchema1 = z.object({
     prescribed_med: z.string(),
     investigations_ordered: z.string(),
   });
+  const FormSchema3 = z.object({
+    drug_id: z.string(),
+    drug_name_generic: z.string(),
+    // drug_brand: z.string(),
+    // manufacturer: z.string(),
+    drug_form: z.string(),
+    // drug_dose: z.string(),
+  });
+
+  const FormSchema4 = z.object({
+    stock_id: z.string(),
+    drug_id: z.string(),
+    drug_brand: z.string(),
+    manufacturer: z.string(),
+    drug_dose: z.string(),
+    container_quantity: z.coerce.number(),
+    units_per_container: z.coerce.number(),
+    total_quantity: z.coerce.number(),
+    supplier: z.string(),
+    mfdate: z.string(),
+    expdate: z.string(),
+    buy_price: z.coerce.number(),
+    sell_price: z.coerce.number(),
+  });
 
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
   const UpdatePatient = FormSchema1.omit({});
   const AddVisit = FormSchema2.omit({id: true});
+  const AddDrug = FormSchema3.omit({drug_id: true});
+  const UpdateDrug = FormSchema3.omit({drug_id: true});
+  const AddStock = FormSchema4.omit({stock_id: true});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -203,4 +230,94 @@ export async function updateInvoice(id: string, formData: FormData) {
   
     revalidatePath('/dashboard/patients');
     redirect('/dashboard/patients');
+  }
+
+  export async function addDrug(formData: FormData) {
+    const { drug_name_generic, drug_form } = AddDrug.parse({
+      drug_name_generic: formData.get('drug_name_generic'),
+      drug_form: formData.get('drug_form'),
+      
+      
+    });
+    // Test it out:
+    console.log(formData);
+  
+    await sql`
+      INSERT INTO drugdetails (drug_name_generic, drug_form)
+      VALUES (${drug_name_generic}, ${drug_form})
+    `;
+  
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
+  }
+
+  export async function updateDrug(id: string, formData: FormData) {
+    const { drug_name_generic, drug_form } = UpdateDrug.parse({
+      drug_name_generic: formData.get('drug_name_generic'),
+      drug_form: formData.get('drug_form'),
+    });
+
+    try {
+    await sql`
+      UPDATE drugdetails
+      SET drug_name_generic = ${drug_name_generic}, drug_form = ${drug_form}
+      WHERE drug_id = ${id}
+    `;
+    } catch (error) {
+    return { message: 'Database Error: Failed to Update drug.' };
+  }
+   
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
+  }
+
+  export async function deleteDrug(id: string) {
+    //throw new Error('Failed to Delete Invoice');
+    try {
+    await sql`DELETE FROM drugdetails WHERE drug_id = ${id}`;
+    revalidatePath('/dashboard/drugs');
+    return { message: 'Deleted Drug.' };
+    } catch (error) {
+    return { message: 'Database Error: Failed to Delete Drug.' };
+  }
+  }
+ 
+  export async function addStock(formData: FormData) {
+    const {drug_id,drug_brand,manufacturer,drug_dose,container_quantity,units_per_container,total_quantity,supplier,mfdate,expdate,buy_price,sell_price} = AddStock.parse({
+      
+      drug_id: formData.get('drug_id'), 
+      drug_brand: formData.get('drug_brand'),
+      manufacturer: formData.get('manufacturer'),
+      drug_dose: formData.get('drug_dose'),
+      container_quantity: formData.get('container_quantity'),
+      units_per_container: formData.get('units_per_container'),
+      total_quantity: formData.get('total_quantity'),
+      supplier: formData.get('supplier'),
+      mfdate: formData.get('mfdate'),
+      expdate: formData.get('expdate'),
+      buy_price: formData.get('buy_price'),
+      sell_price: formData.get('sell_price'),
+    });
+    const buypriceInCents = buy_price * 100;
+    const sellpriceInCents = sell_price * 100;
+    console.log(FormData);
+  
+    await sql`
+      INSERT INTO drugstocks (drug_id, drug_brand, manufacturer, drug_dose, container_quantity, units_per_container, total_quantity, supplier, mfdate, expdate, buy_price, sell_price)
+      VALUES (${drug_id}, ${drug_brand}, ${manufacturer}, ${drug_dose}, ${container_quantity}, ${units_per_container}, ${total_quantity},${supplier},${mfdate},${expdate},${buypriceInCents},${sellpriceInCents})
+    `;
+  
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
+  }
+
+  export async function deleteStock(id: string) {
+    //throw new Error('Failed to Delete Invoice');
+    try {
+    await sql`DELETE FROM drugstocks WHERE stock_id = ${id}`;
+    revalidatePath('/dashboard/drugs');
+    return { message: 'Deleted stock.' };
+    } catch (error) {
+    return { message: 'Database Error: Failed to Delete stock.' };
+  }
   }

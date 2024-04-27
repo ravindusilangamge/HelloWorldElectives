@@ -1,7 +1,7 @@
 import { UpdatePatient, DeletePatient, ViewPatient } from '@/app/ui/patients/buttons';
 //import InvoiceStatus from '@/app/ui/invoices/status';
 import { fetchPatients } from '@/app/lib/data';
-import { formatDateToLocal } from '@/app/lib/utils';
+//import { formatDateToLocal } from '@/app/lib/utils';
 
 function calculateAge(birthDate: Date | null): { years: number | null; months: number | null } {
   if (!birthDate) {

@@ -80,6 +80,8 @@ export type CustomerField = {
   name: string;
 };
 
+
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
@@ -110,3 +112,36 @@ export type VisitsTable = {
   prescribed_med: string;
   investigations_ordered: string;
 };
+
+export type DrugsTableType ={
+  drug_id: string;
+  drug_name_generic: string;
+  drug_form: string;
+
+};
+
+export type DrugStocksTable ={
+  stock_id: string;
+  drug_id: string;
+  //drug_name_generic: string;
+  drug_brand: string;
+  manufacturer: string;
+  drug_dose: string;
+  container_quantity: number;
+  units_per_container: number;
+  total_quantity: number;
+  supplier: string;
+  mfdate: string;
+  expdate: string;
+  buy_price: number;
+  sell_price: number;
+}
+
+// export type DrugsField = {
+//   drug_id: string;
+//   drug_name_generic: string;
+//   // drug_brand: string;
+//   // manufacturer: string;
+//   // drug_dose: string;
+//   // drug_form: string;
+// };

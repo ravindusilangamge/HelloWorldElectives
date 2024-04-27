@@ -9,6 +9,9 @@ import {
   Revenue,
   PatientsTableType,
   VisitsTable,
+  DrugsTableType,
+  DrugStocksTable,
+  
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -381,3 +384,128 @@ export async function fetchVisitsPages(query: string) {
     throw new Error('Failed to fetch total number of patients.');
   }
 }
+
+
+export async function fetchDrugsPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM drugdetails
+    WHERE
+      drugdetails.drug_name_generic ILIKE ${`%${query}%`} OR
+      drugdetails.drug_form ILIKE ${`%${query}%`} 
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of patients.');
+  }
+}
+
+export async function fetchDrugs(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const drugs = await sql<DrugsTableType>`
+      SELECT
+        drugdetails.drug_id,
+        drugdetails.drug_name_generic,
+        drugdetails.drug_form
+      FROM drugdetails
+      WHERE
+        drugdetails.drug_name_generic ILIKE ${`%${query}%`} OR
+        drugdetails.drug_form ILIKE ${`%${query}%`}
+      ORDER BY drugdetails.drug_name_generic ASC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return drugs.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drugs.');
+  }
+}
+
+export async function fetchDrugsforForm() {
+  noStore();
+  try {
+    const data = await sql<DrugsTableType>`
+      SELECT
+        drug_id,
+        drug_name_generic,
+        drug_form
+      FROM drugdetails
+      ORDER BY drug_name_generic ASC
+    `;
+
+    const drugs = data.rows;
+    return drugs;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all drugs.');
+  }
+}
+
+export async function fetchDrugById(id: string) {
+  noStore();
+  try {
+    const data = await sql<DrugsTableType>`
+      SELECT
+        drugdetails.drug_id,
+        drugdetails.drug_name_generic
+      FROM drugdetails
+      WHERE drugdetails.drug_id = ${id};
+    `;
+
+    const drug = data.rows.map((drug) => ({
+      ...drug,
+    }));
+    console.log(drug);
+
+    return drug[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient.');
+  }
+}
+
+export async function fetchStocksById(id: string) {
+  noStore();
+  try {
+    const data = await sql<DrugStocksTable>`
+      SELECT
+        drugstocks.stock_id,
+        drugstocks.drug_id,
+        drugstocks.drug_brand,
+        drugstocks.manufacturer,
+        drugstocks.drug_dose,
+        drugstocks.container_quantity,
+        drugstocks.units_per_container,
+        drugstocks.total_quantity,
+        drugstocks.supplier,
+        drugstocks.mfdate,
+        drugstocks.expdate,
+        drugstocks.buy_price,
+        drugstocks.sell_price
+      FROM drugstocks
+      WHERE drugstocks.drug_id = ${id};
+    `;
+
+    //const drug = data.rows
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drug stocks.');
+  }
+}
+
+
+
+

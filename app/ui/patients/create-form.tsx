@@ -1,11 +1,7 @@
 
 'use client'
-//import { PatientsTableType } from '@/app/lib/definitions';
+
 import Link from 'next/link';
-// import {
-//   CheckIcon,
-//   ClockIcon,
-// } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { addPatient } from '@/app/lib/actions';
 import DatePicker from 'react-datepicker';

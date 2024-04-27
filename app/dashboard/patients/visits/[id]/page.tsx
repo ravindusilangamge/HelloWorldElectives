@@ -1,7 +1,7 @@
 
 import Form from '@/app/ui/patients/visit-form';
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
-import { fetchVisitsById, fetchPatientById } from '@/app/lib/data';
+import { fetchVisitsById, fetchPatientById, fetchDrugsforForm } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { PatientsTableType, VisitsTable } from '@/app/lib/definitions';
 import OverviewCard from '@/app/ui/patients/overview';
@@ -14,6 +14,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     fetchPatientById(p_id),
   ]);
   if (!patient) {
+    notFound();
+  }
+
+  const [drugs] = await Promise.all([
+    fetchDrugsforForm(),
+  ]);
+  if (!drugs) {
     notFound();
   }
  
@@ -32,7 +39,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         ]}
       />
       <OverviewCard patient = {patient[0]}/>
-      <Form patient_id = {p_id} patient_details={patient}/>
+      <Form patient_id = {p_id} patient_details={patient} drugs = {drugs}/>
     </main>
   );
 }
