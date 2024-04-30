@@ -233,25 +233,26 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                             </Combobox.Options>
                             </Transition>
                         </Combobox>
-                        <label className='pl-4 relative'>Dose</label>
+                        <label className="mb-2 text-sm font-medium relative pl-4">Dose</label>
                         <input
                             id='drugDose'
                             name='drugDose'
                             className='relative rounded-md border-gray-200 pl-4 ml-4' 
                             style={{ width: '200px' }}
                         />
-                        <label className='pl-4 relative'>Frequency</label>
+                        <label className="mb-2 text-sm font-medium relative pl-4">Frequency</label>
                         <input
                             id='freq'
                             name='freq'
                             className='relative rounded-md border-gray-200 pl-4 ml-4'
+                            style={{ width: '100px' }}                            
                         />
-                        <label className='pl-4'>Days</label>
+                        <label className="mb-2 text-sm font-medium relative pl-4">Days</label>
                         <input
                             id='days'
                             name='days'
                             className='rounded-md border-gray-200 pl-4 ml-4'
-                            style={{ width: '100px' }}
+                            style={{ width: '50px' }}
                         />
                         <button 
                             id = "add"

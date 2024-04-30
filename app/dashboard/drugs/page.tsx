@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { fetchDrugsPages } from '@/app/lib/data';
 import Pagination from '@/app/ui/invoices/pagination';
 import Table from '@/app/ui/drugs/table';
-import { AddDrug } from '@/app/ui/drugs/buttons';
+import { AddDrug, AddSupplier, AddManufacturer } from '@/app/ui/drugs/buttons';
 
 export default async function Page({
     searchParams,
@@ -33,6 +33,21 @@ export default async function Page({
             <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={totalPages} />
             </div>
+            <div className='mt-4 mb-4 relative w-full ml-4 mr-4 justify-center'>
+              <div><AddSupplier/> </div>
+              <div className='mt-4'><AddManufacturer/></div>
+            </div>
+            <div>
+                <iframe
+                  src="https://metabase.expergen.com/public/dashboard/7d9b7cfd-606d-47e4-b43c-0b121383083c"
+                  frameBorder="0"
+                  width="100%"
+                  height="600"
+                  allowTransparency
+              ></iframe>
+            </div>
+            
         </div>
+        
     );
   }

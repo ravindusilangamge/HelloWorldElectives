@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+//import { AddManufacturer } from '../ui/drugs/buttons';
 
 const FormSchema = z.object({
     id: z.string(),
@@ -61,6 +62,19 @@ const FormSchema1 = z.object({
     sell_price: z.coerce.number(),
   });
 
+  const FormSchema5 = z.object({
+    id: z.string(),
+    name: z.string(),
+    address: z.string(),
+    phonenumber: z.string(),
+  });
+
+  const FormSchema6 = z.object({
+    id: z.string(),
+    name: z.string(),
+    address: z.string(),
+  });
+
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
@@ -69,6 +83,8 @@ const FormSchema1 = z.object({
   const AddDrug = FormSchema3.omit({drug_id: true});
   const UpdateDrug = FormSchema3.omit({drug_id: true});
   const AddStock = FormSchema4.omit({stock_id: true});
+  const AddSupplier =  FormSchema5.omit({id: true});
+  const AddManufacturer = FormSchema6.omit({id: true});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -320,4 +336,40 @@ export async function updateInvoice(id: string, formData: FormData) {
     } catch (error) {
     return { message: 'Database Error: Failed to Delete stock.' };
   }
+  }
+
+
+  export async function addSupplier(formData: FormData) {
+    const { name, address, phonenumber } = AddSupplier.parse({
+      
+      name: formData.get('name'),
+      phonenumber: formData.get('phonenumber'),
+      address: formData.get('address'),
+      
+    });
+  
+    await sql`
+      INSERT INTO suppliers (name, address, phonenumber)
+      VALUES ( ${name}, ${address}, ${phonenumber})
+    `;
+  
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
+  }
+
+  export async function addManufacturer(formData: FormData) {
+    const { name, address } = AddManufacturer.parse({
+      
+      name: formData.get('name'),
+      address: formData.get('address'),
+      
+    });
+  
+    await sql`
+      INSERT INTO manufacturers (name, address)
+      VALUES ( ${name}, ${address})
+    `;
+  
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
   }
