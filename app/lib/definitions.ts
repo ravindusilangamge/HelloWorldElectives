@@ -92,11 +92,19 @@ export type InvoiceForm = {
 export type PatientsTableType = {
   p_id: string;
   name: string;
-  // age: string;
   gender: string;
   address: string;
   phonenumber: string;
   birthdate: string;
+  pmhx: string;
+  dm: boolean;
+  dl: boolean;
+  htn: boolean;
+  ba: boolean;
+  food: boolean;
+  drugs: boolean;
+  plaster: boolean;
+  allergy_det: string;
 };
 
 export type VisitsTable = {
@@ -105,12 +113,11 @@ export type VisitsTable = {
   date: string;
   pcompl: string;
   hpc: string;
-  pmhx: string;
-  allergy: string;
   examination: string;
   investigations_sofar: string;
   prescribed_med: string;
   investigations_ordered: string;
+  prescription: string[];
 };
 
 export type DrugsTableType ={
@@ -123,25 +130,30 @@ export type DrugsTableType ={
 export type DrugStocksTable ={
   stock_id: string;
   drug_id: string;
-  //drug_name_generic: string;
   drug_brand: string;
-  manufacturer: string;
-  drug_dose: string;
+  manufacturer_id: string;
+  drug_dose: number;
+  unit: string;
   container_quantity: number;
   units_per_container: number;
   total_quantity: number;
-  supplier: string;
+  //supplier: string;
+  supplier_id: string;
   mfdate: string;
   expdate: string;
   buy_price: number;
   sell_price: number;
-}
+};
 
-// export type DrugsField = {
-//   drug_id: string;
-//   drug_name_generic: string;
-//   // drug_brand: string;
-//   // manufacturer: string;
-//   // drug_dose: string;
-//   // drug_form: string;
-// };
+export type SuppliersTable = {
+  id: string;
+  name: string;
+  address: string;
+  phonenumber: string;
+};
+
+export type ManufacturersTable = {
+  id: string;
+  name: string;
+  address: string;
+};

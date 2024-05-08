@@ -1,5 +1,5 @@
-import { UpdateDrug, DeleteStock, ViewDrug } from '@/app/ui/drugs/buttons';
-import { fetchStocksById } from '@/app/lib/data';
+import { UpdateDrug, DeleteStock, UpdateStock, ViewDrug } from '@/app/ui/drugs/buttons';
+import { fetchDrugById, fetchManufacturers, fetchManufacturersById, fetchStocksById } from '@/app/lib/data';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { notFound } from 'next/navigation';
 
@@ -10,7 +10,10 @@ export default async function DrugsTable(id: {id: string}) {
           ]);
           if (!drugstocks) {
             notFound();
-          }
+          };
+    const drugDetails = await fetchDrugById(id.id);
+    const manufac = await fetchManufacturers();
+
     
           console.log(drugstocks);
     return (
@@ -27,19 +30,17 @@ export default async function DrugsTable(id: {id: string}) {
                       <div className="mb-2 flex items-center">
                         <p>{stock.drug_brand}</p>
                         <p>{stock.drug_dose}</p>
+                        <p>{stock.unit}</p>
                       </div>
                   </div>
                   <div className="flex w-full items-center justify-between pt-4">
                     <div>
-                      {/* <p className="text-xl font-medium">
-                        {stock.drug_brand}
-                      </p> */}
-                      <p>{stock.manufacturer}</p>
+                      <p>{stock.manufacturer_id}</p>
                       <p>{stock.total_quantity}</p>
                       <p>{stock.sell_price}</p>
                       <p>{formatCurrency(stock.sell_price)}</p>
                     </div>
-                    <div className="flex justify-end gap-2">
+                    <div className="flex items-center justify-end gap-2">
                       {/* <ViewDrug id={stock.drug_id} /> */}
                       <UpdateDrug id={stock.drug_id} />
                       <DeleteStock id={stock.stock_id} />
@@ -52,18 +53,16 @@ export default async function DrugsTable(id: {id: string}) {
             <table className="hidden min-w-full text-gray-900 md:table">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                    Stock ID
-                  </th>
+                  
                   <th scope="col" className="px-3 py-5 font-medium">
                     Brand name
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Formulation
+                    Dose
                   </th>
-                  {/* <th scope="col" className="px-3 py-5 font-medium">
-                    Brand
-                  </th> */}
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                    Unit
+                  </th>
                   <th scope="col" className="px-3 py-5 font-medium">
                     Manufacturer
                   </th>
@@ -76,6 +75,9 @@ export default async function DrugsTable(id: {id: string}) {
                   <th scope="col" className="px-3 py-5 font-medium">
                     Expiary date
                   </th>
+                  <th scope="col" className="px-3 py-5 font-medium text-center">
+                    Edit
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -84,22 +86,19 @@ export default async function DrugsTable(id: {id: string}) {
                     key={stock.stock_id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-normal py-3 pl-6 pr-3">
-                      <div className="flex items-center gap-3">
-                        <p>{stock.stock_id}</p>
-                      </div>
-                    </td>
+                    
                     <td className="whitespace-normal px-3 py-3">
                       {stock.drug_brand}
                     </td>
                     <td className="whitespace-normal px-3 py-3">
                       {stock.drug_dose}
                     </td>
-                    {/* <td className="whitespace-normal px-3 py-3">
-                      {stock.drug_brand}
-                    </td> */}
                     <td className="whitespace-normal px-3 py-3">
-                      {stock.manufacturer}
+                      {stock.unit}
+                    </td>
+                    <td className="whitespace-normal px-3 py-3">
+                      {manufac.find(test => test.id === stock.manufacturer_id)?.name}
+                      {/* {stock.manufacturer_id} */}
                     </td>
                     <td className="whitespace-normal px-3 py-3">
                       {stock.total_quantity}
@@ -114,7 +113,7 @@ export default async function DrugsTable(id: {id: string}) {
                       <div className="flex justify-end gap-3">
                         {/* <ViewPatient id = {patient.p_id}/> */}
                         {/* <ViewDrug id={stock.drug_id} /> */}
-                        <UpdateDrug id={stock.drug_id} />
+                        <UpdateStock id={stock.drug_id} />
                         <DeleteStock id={stock.stock_id} />
                       </div>
                     </td>

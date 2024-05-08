@@ -95,3 +95,14 @@ export function AddDrug() {
       </Link>
     );
   }
+
+  export function UpdateStock({ id }: { id: string }) {
+    return (
+      <Link
+        href={`/dashboard/drugs/updatestock/${id}/`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+        <PencilIcon className="w-5" />
+      </Link>
+    );
+  }

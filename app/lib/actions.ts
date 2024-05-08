@@ -14,6 +14,7 @@ const FormSchema = z.object({
     status: z.enum(['pending', 'paid']),
     date: z.string(),
   });
+
 const FormSchema1 = z.object({
     p_id: z.string(),
     name: z.string(),
@@ -23,19 +24,23 @@ const FormSchema1 = z.object({
     address: z.string(),
     birthdate: z.string(),
     phonenumber: z.string(),
+    pmhx: z.string(),
+    allergy: z.string(),
   });
+
   const FormSchema2 = z.object({
     id: z.string(),
     date: z.string(),
     p_id: z.string(),
     pCompl: z.string(),
     hpc: z.string(),
-    pmhx: z.string(),
-    allergy: z.string(),
+    //pmhx: z.string(),
+    //allergy: z.string(),
     examination: z.string(),
     investigations_sofar: z.string(),
     prescribed_med: z.string(),
     investigations_ordered: z.string(),
+    prescription: z.string(),
   });
   const FormSchema3 = z.object({
     drug_id: z.string(),
@@ -50,12 +55,13 @@ const FormSchema1 = z.object({
     stock_id: z.string(),
     drug_id: z.string(),
     drug_brand: z.string(),
-    manufacturer: z.string(),
-    drug_dose: z.string(),
+    manufacturer_id: z.string(),
+    drug_dose: z.coerce.number(),
+    unit: z.string(),
     container_quantity: z.coerce.number(),
     units_per_container: z.coerce.number(),
     total_quantity: z.coerce.number(),
-    supplier: z.string(),
+    supplier_id: z.string(),
     mfdate: z.string(),
     expdate: z.string(),
     buy_price: z.coerce.number(),
@@ -75,6 +81,14 @@ const FormSchema1 = z.object({
     address: z.string(),
   });
 
+  const FormSchema8 = z.object({
+    id: z.string(),
+    visit_id: z.string(),
+    stock_id: z.string(),
+    quantity: z.coerce.number(),
+    amount: z.coerce.number(),
+  });
+
   const CreateInvoice = FormSchema.omit({ id: true, date: true });
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
@@ -83,8 +97,10 @@ const FormSchema1 = z.object({
   const AddDrug = FormSchema3.omit({drug_id: true});
   const UpdateDrug = FormSchema3.omit({drug_id: true});
   const AddStock = FormSchema4.omit({stock_id: true});
+  const UpdateStock = FormSchema4.omit({stock_id: true});
   const AddSupplier =  FormSchema5.omit({id: true});
   const AddManufacturer = FormSchema6.omit({id: true});
+  const AddDrugSale = FormSchema8.omit({id: true});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -112,21 +128,29 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function addPatient(formData: FormData) {
-  const { p_id, name, gender, address, phonenumber, birthdate } = AddPatient.parse({
+  const { p_id, name, gender, address, phonenumber, birthdate, pmhx, allergy } = AddPatient.parse({
     p_id: formData.get('p_id'),
     name: formData.get('name'),
-    //age: formData.get('age'),
     gender: formData.get('gender'),
     phonenumber: formData.get('phonenumber'),
     address: formData.get('address'),
     birthdate: formData.get('birthdate'),
+    pmhx: formData.get('pmhx'),
+    allergy: formData.get('allergy'),
   });
+  const dm = formData.get('dm') === 'true';
+  const htn = formData.get('htn') === 'true';
+  const dl = formData.get('dl') === 'true';
+  const ba = formData.get('ba') === 'true';
+  const food = formData.get('food') === 'true';
+  const drugs = formData.get('drugs') === 'true';
+  const plaster = formData.get('plaster') === 'true';
   // Test it out:
   //console.log(rawFormData);
 
   await sql`
-    INSERT INTO patientdetails (p_id, name, gender, address, phonenumber, birthdate)
-    VALUES (${p_id}, ${name}, ${gender}, ${address}, ${phonenumber}, ${birthdate})
+    INSERT INTO patientdetails (p_id, name, gender, address, phonenumber, birthdate, pmhx, dm, htn, dl, ba, allergy_det, food, drugs, plaster)
+    VALUES (${p_id}, ${name}, ${gender}, ${address}, ${phonenumber}, ${birthdate}, ${pmhx}, ${dm}, ${htn}, ${dl}, ${ba}, ${allergy}, ${food}, ${drugs}, ${plaster})
   `;
 
   revalidatePath('/dashboard/patients');
@@ -186,7 +210,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function updatePatient(id: string, formData: FormData) {
-    const { p_id, name, gender, address, phonenumber, birthdate } = UpdatePatient.parse({
+    const { p_id, name, gender, address, phonenumber, birthdate, pmhx, allergy } = UpdatePatient.parse({
       p_id: formData.get('p_id'),
       name: formData.get('name'),
       age: formData.get('age'),
@@ -194,12 +218,23 @@ export async function updateInvoice(id: string, formData: FormData) {
       address: formData.get('address'),
       phonenumber: formData.get('phonenumber'),
       birthdate: formData.get('birthdate'),
+      pmhx: formData.get('pmhx'),
+      allergy: formData.get('allergy'),
     });
+
+    const dm = formData.get('dm') === 'true';
+    const htn = formData.get('htn') === 'true';
+    const dl = formData.get('dl') === 'true';
+    const ba = formData.get('ba') === 'true';
+    const food = formData.get('food') === 'true';
+    const drugs = formData.get('drugs') === 'true';
+    const plaster = formData.get('plaster') === 'true';
 
     try {
     await sql`
       UPDATE patientdetails
-      SET p_id = ${p_id}, name = ${name}, gender = ${gender}, address = ${address}, phonenumber = ${phonenumber}, birthdate = ${birthdate}
+      SET p_id = ${p_id}, name = ${name}, gender = ${gender}, address = ${address}, phonenumber = ${phonenumber}, birthdate = ${birthdate}, pmhx = ${pmhx},
+      dm = ${dm}, htn = ${htn}, dl = ${dl}, ba = ${ba}, food = ${food}, drugs = ${drugs}, plaster = ${plaster}, allergy_det = ${allergy}
       WHERE p_id = ${id}
     `;
     } catch (error) {
@@ -222,26 +257,30 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function addVisit(formData: FormData) {
-    const {p_id, date, pCompl, hpc, pmhx, allergy, examination, investigations_sofar, prescribed_med, investigations_ordered} = AddVisit.parse({
+    const {p_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered,prescription} = AddVisit.parse({
       // id: formData.get('id'),
       date: formData.get('date'), 
       p_id: formData.get('p_id'),
       pCompl: formData.get('pCompl'),
       hpc: formData.get('hpc'),
-      pmhx: formData.get('pmhx'),
-      allergy: formData.get('allergy'),
+      // pmhx: formData.get('pmhx'),
+      // allergy: formData.get('allergy'),
       examination: formData.get('examination'),
       investigations_sofar: formData.get('investigations_sofar'),
       prescribed_med: formData.get('prescribed_med'),
       investigations_ordered: formData.get('investigations_ordered'),
-
+      prescription: formData.get('prescription'),
     });
     
+    const test = JSON.parse(prescription);
+
     console.log(FormData);
+    console.log('this is the value of test - ', test);
+    console.log('this is prescription', prescription);
   
     await sql`
-      INSERT INTO visits (patient_id, date, pCompl, hpc, pmhx, allergy, examination, investigations_sofar, prescribed_med, investigations_ordered)
-      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${pmhx}, ${allergy}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered})
+      INSERT INTO visits (patient_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered, prescription)
+      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered}, ${test})
     `;
   
     revalidatePath('/dashboard/patients');
@@ -299,16 +338,17 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
  
   export async function addStock(formData: FormData) {
-    const {drug_id,drug_brand,manufacturer,drug_dose,container_quantity,units_per_container,total_quantity,supplier,mfdate,expdate,buy_price,sell_price} = AddStock.parse({
+    const {drug_id,drug_brand,manufacturer_id,drug_dose,unit, container_quantity,units_per_container,total_quantity,supplier_id,mfdate,expdate,buy_price,sell_price} = AddStock.parse({
       
       drug_id: formData.get('drug_id'), 
       drug_brand: formData.get('drug_brand'),
-      manufacturer: formData.get('manufacturer'),
+      manufacturer_id: formData.get('manufacturer'),
       drug_dose: formData.get('drug_dose'),
+      unit: formData.get('unit'),
       container_quantity: formData.get('container_quantity'),
       units_per_container: formData.get('units_per_container'),
       total_quantity: formData.get('total_quantity'),
-      supplier: formData.get('supplier'),
+      supplier_id: formData.get('supplier'),
       mfdate: formData.get('mfdate'),
       expdate: formData.get('expdate'),
       buy_price: formData.get('buy_price'),
@@ -319,10 +359,44 @@ export async function updateInvoice(id: string, formData: FormData) {
     console.log(FormData);
   
     await sql`
-      INSERT INTO drugstocks (drug_id, drug_brand, manufacturer, drug_dose, container_quantity, units_per_container, total_quantity, supplier, mfdate, expdate, buy_price, sell_price)
-      VALUES (${drug_id}, ${drug_brand}, ${manufacturer}, ${drug_dose}, ${container_quantity}, ${units_per_container}, ${total_quantity},${supplier},${mfdate},${expdate},${buypriceInCents},${sellpriceInCents})
+      INSERT INTO drugstocks (drug_id, drug_brand, manufacturer_id, drug_dose, unit, container_quantity, units_per_container, total_quantity, supplier_id, mfdate, expdate, buy_price, sell_price)
+      VALUES (${drug_id}, ${drug_brand}, ${manufacturer_id}, ${drug_dose}, ${unit}, ${container_quantity}, ${units_per_container}, ${total_quantity},${supplier_id},${mfdate},${expdate},${buypriceInCents},${sellpriceInCents})
     `;
   
+    revalidatePath('/dashboard/drugs');
+    redirect('/dashboard/drugs');
+  }
+
+  export async function updateStock(id: string, formData: FormData) {
+    const { drug_id,drug_brand,manufacturer_id,drug_dose,unit,container_quantity,units_per_container,total_quantity,supplier_id,mfdate,expdate,buy_price,sell_price } = UpdateStock.parse({
+      drug_id: formData.get('drug_id'), 
+      drug_brand: formData.get('drug_brand'),
+      manufacturer_id: formData.get('manufacturer'),
+      drug_dose: formData.get('drug_dose'),
+      unit: formData.get('unit'),
+      container_quantity: formData.get('container_quantity'),
+      units_per_container: formData.get('units_per_container'),
+      total_quantity: formData.get('total_quantity'),
+      supplier_id: formData.get('supplier'),
+      mfdate: formData.get('mfdate'),
+      expdate: formData.get('expdate'),
+      buy_price: formData.get('buy_price'),
+      sell_price: formData.get('sell_price'),
+    });
+
+    const buypriceInCents = buy_price * 100;
+    const sellpriceInCents = sell_price * 100;
+
+    try {
+    await sql`
+      UPDATE drugstocks
+      SET drug_brand = ${drug_brand}, manufacturer_id = ${manufacturer_id}, drug_dose = ${drug_dose}, unit = ${unit}, container_quantity = ${container_quantity}, units_per_container = ${units_per_container}, total_quantity = ${total_quantity}, supplier_id = ${supplier_id}, mfdate = ${mfdate}, expdate = ${expdate}, buy_price = ${buypriceInCents}, sell_price = ${sellpriceInCents}
+      WHERE stock_id = ${id}
+    `;
+    } catch (error) {
+    return { message: 'Database Error: Failed to Update stock.' };
+  }
+   
     revalidatePath('/dashboard/drugs');
     redirect('/dashboard/drugs');
   }
@@ -372,4 +446,28 @@ export async function updateInvoice(id: string, formData: FormData) {
   
     revalidatePath('/dashboard/drugs');
     redirect('/dashboard/drugs');
+  }
+
+  type saleRecord = {
+    visit_id: string;
+    stock_id: string;
+    quantity: number;
+    amount: number;
+  };
+
+  export async function addDrugSale(saleRecord: saleRecord) {
+    const { visit_id, stock_id, quantity, amount } = saleRecord;
+    const amountInCents = amount;
+    const date = new Date().toISOString().split('T')[0];
+    
+    try {
+      await sql`
+        INSERT INTO prescriptions (visit_id, stock_id, servedquantity, billvalue, date)
+        VALUES (${visit_id}, ${stock_id}, ${quantity}, ${amountInCents}, ${date})
+      `;
+      console.log('Drug sale record added successfully');
+    } catch (error) {
+      console.error('Error adding drug sale record:', error);
+      throw error; // Rethrow the error to handle it in the calling code
+    }
   }

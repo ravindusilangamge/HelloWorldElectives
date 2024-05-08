@@ -11,6 +11,8 @@ import {
   VisitsTable,
   DrugsTableType,
   DrugStocksTable,
+  SuppliersTable,
+  ManufacturersTable,
   
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -314,7 +316,16 @@ export async function fetchPatientById(id: string) {
         patientdetails.gender,
         patientdetails.address,
         patientdetails.birthdate,
-        patientdetails.phonenumber
+        patientdetails.phonenumber,
+        patientdetails.pmhx,
+        patientdetails.dm,
+        patientdetails.htn,
+        patientdetails.dl,
+        patientdetails.ba,
+        patientdetails.food,
+        patientdetails.drugs,
+        patientdetails.plaster,
+        patientdetails.allergy_det
       FROM patientdetails
       WHERE patientdetails.p_id = ${id};
     `;
@@ -341,12 +352,11 @@ export async function fetchVisitsById(id: string) {
         visits.date,
         visits.pcompl,
         visits.hpc,
-        visits.pmhx,
-        visits.allergy,
         visits.examination,
         visits.investigations_sofar,
         visits.prescribed_med,
-        visits.investigations_ordered
+        visits.investigations_ordered,
+        visits.prescription
       FROM visits
       WHERE visits.patient_id = ${id}
       ORDER BY visits.date DESC;
@@ -458,7 +468,8 @@ export async function fetchDrugById(id: string) {
     const data = await sql<DrugsTableType>`
       SELECT
         drugdetails.drug_id,
-        drugdetails.drug_name_generic
+        drugdetails.drug_name_generic,
+        drugdetails.drug_form
       FROM drugdetails
       WHERE drugdetails.drug_id = ${id};
     `;
@@ -483,12 +494,13 @@ export async function fetchStocksById(id: string) {
         drugstocks.stock_id,
         drugstocks.drug_id,
         drugstocks.drug_brand,
-        drugstocks.manufacturer,
+        drugstocks.manufacturer_id,
         drugstocks.drug_dose,
+        drugstocks.unit,
         drugstocks.container_quantity,
         drugstocks.units_per_container,
         drugstocks.total_quantity,
-        drugstocks.supplier,
+        drugstocks.supplier_id,
         drugstocks.mfdate,
         drugstocks.expdate,
         drugstocks.buy_price,
@@ -506,6 +518,139 @@ export async function fetchStocksById(id: string) {
   }
 }
 
+export async function fetchSuppliers() {
+  noStore();
+  try {
+    const data = await sql<SuppliersTable>`
+      SELECT
+        suppliers.id,
+        suppliers.name,
+        suppliers.address,
+        suppliers.phonenumber
+      FROM suppliers
+      ORDER BY name ASC;
+    `;
 
+    //const drug = data.rows
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch suppliers.');
+  }
+}
+
+export async function fetchManufacturers() {
+  noStore();
+  try {
+    const data = await sql<ManufacturersTable>`
+      SELECT
+        manufacturers.id,
+        manufacturers.name,
+        manufacturers.address
+      FROM manufacturers
+      ORDER BY name ASC;
+    `;
+
+    //const drug = data.rows
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch manufacturers.');
+  }
+}
+
+export async function fetchManufacturersById(id: string) {
+  noStore();
+  try {
+    const data = await sql<ManufacturersTable>`
+      SELECT
+        manufacturers.id,
+        manufacturers.name,
+        manufacturers.address
+      FROM manufacturers
+      WHERE manufacturers.id = ${id};
+    `;
+
+    //const drug = data.rows
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch manufacturers.');
+  }
+}
+
+export async function fetchPrescriptionsByDate() {
+  noStore();
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const data = await sql<VisitsTable>`
+      SELECT
+        visits.id,
+        visits.patient_id,
+        visits.prescription
+      FROM visits
+      WHERE DATE(visits.date) = ${today};
+    `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch prescriptions for today.');
+  }
+}
+
+export async function fetchStocks() {
+  noStore();
+  try {
+    const data = await sql<DrugStocksTable>`
+      SELECT
+        drugstocks.stock_id,
+        drugstocks.drug_id,
+        drugstocks.drug_brand,
+        drugstocks.manufacturer_id,
+        drugstocks.drug_dose,
+        drugstocks.container_quantity,
+        drugstocks.units_per_container,
+        drugstocks.total_quantity,
+        drugstocks.supplier_id,
+        drugstocks.mfdate,
+        drugstocks.expdate,
+        drugstocks.buy_price,
+        drugstocks.sell_price
+      FROM drugstocks;
+    `;
+
+    //const drug = data.rows
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drug stocks.');
+  }
+}
+
+export async function fetchPatientsByVisit() {
+  noStore();
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const data = await sql<PatientsTableType>`
+      SELECT
+        patientdetails.p_id,
+        patientdetails.name
+      FROM patientdetails
+      JOIN visits ON patientdetails.p_id = visits.patient_id
+      WHERE DATE(visits.date) = ${today}
+      AND visits.prescription IS NOT NULL;
+    `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch prescriptions for today.');
+  }
+}
 
 

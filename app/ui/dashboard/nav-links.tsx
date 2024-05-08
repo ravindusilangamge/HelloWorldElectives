@@ -6,6 +6,7 @@ import {
   DocumentDuplicateIcon,
   UserIcon,
   BeakerIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,8 +22,10 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
-  {name: 'Drugs', href: '/dashboard/drugs', icon: BeakerIcon},
+  
   {name: 'Patients', href: '/dashboard/patients', icon: UserIcon },
+  {name: 'Drugs', href: '/dashboard/drugs', icon: BeakerIcon},
+  {name: 'Dispencer', href: '/dashboard/dispencer', icon: ShoppingBagIcon},
   
 ];
 

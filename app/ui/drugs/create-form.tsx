@@ -28,61 +28,7 @@ export default function Form() {
             </div>
           </div>
         </div>
-
         
-        {/* <div className="mb-4">
-          <label htmlFor="drug_brand" className="mb-2 block text-sm font-medium">
-            Enter the drug formulation.
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="drug_form"
-                name="drug_form"
-                type="string"
-                placeholder="Enter the drug formulation..."
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-            </div>
-          </div>
-        </div>  */}
-
-        {/* Invoice Amount */}
-        {/* <div className="mb-4">
-          <label htmlFor="manufacturer" className="mb-2 block text-sm font-medium">
-            Enter the Manufacturer.
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-            <input
-                id="manufacturer"
-                name="manufacturer"
-                type="string"
-                placeholder="Enter the manufacturer..."
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-            </div>
-          </div>
-        </div> */}
-
-        {/* <div className="mb-4">
-          <label htmlFor="drug_dose" className="mb-2 block text-sm font-medium">
-            Enter the Dose.
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="drug_dose"
-                name="drug_dose"
-                type="string"
-                placeholder="Enter the drug dose..."
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-            </div>
-          </div>
-        </div> */}
-
-        {/* Gender Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Drug Formulation?

@@ -2,17 +2,16 @@
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 //import { PatientsTableType, DrugsTableType, DrugStocksTable } from '@/app/lib/definitions';
-import { addStock } from '@/app/lib/actions';
+import { addStock, updateStock } from '@/app/lib/actions';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ManufacturersTable, SuppliersTable } from '@/app/lib/definitions';
+import { DrugStocksTable, DrugsTableType, ManufacturersTable, SuppliersTable } from '@/app/lib/definitions';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 
 
 
-export default function Form({ id, suppliers, manufacturers }: { id: string; suppliers: SuppliersTable[]; manufacturers: ManufacturersTable[]}) {   
-    const drug_id = id;
+export default function Form({ stock, suppliers, manufacturers }: { stock: DrugStocksTable; suppliers: SuppliersTable[]; manufacturers: ManufacturersTable[]}) {   
     interface FormValues {
         container_quantity: number;
         units_per_container: number;
@@ -58,21 +57,21 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
         };
     }, []);
 
-    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-    const [selectedDate1, setSelectedDate1] = useState<Date | null>(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date(stock.mfdate));
+    const [selectedDate1, setSelectedDate1] = useState<Date | null>(new Date(stock.expdate));
 
-
+    const updateStockWithId = updateStock.bind(null, stock.stock_id);
 
 
     return(
     <div>
-        <form action={addStock}>
+        <form action={updateStockWithId}>
             <div className="rounded-md bg-gray-50 p-4 md:p-6"> 
                     <input
                         id="drug_id"
                         name="drug_id"
                         type="hidden"
-                        defaultValue={drug_id}
+                        defaultValue={stock.drug_id}
                     />
                 
                     <div className="mb-4">
@@ -86,6 +85,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="drug_brand"
                                     type="string"
                                     placeholder="Enter drug brand..."
+                                    defaultValue={stock.drug_brand}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -101,7 +101,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                             id="manufacturer"
                             name="manufacturer"
                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue=""
+                            defaultValue={manufacturers.find(test => test.id === stock.manufacturer_id)?.name}
                             >
                             <option value="" disabled>
                                 Select a manufacturer
@@ -127,7 +127,8 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="drug_dose"
                                     type="number"
                                     placeholder="Enter drug dose..."
-                                    className="peer  w-50% rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    defaultValue={stock.drug_dose}
+                                    className="peer w-50% rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                                 <label htmlFor="unit" className="mt-2 mb-2 pl-2 pr-2 text-sm font-medium">Unit: </label>
                                 <input
@@ -135,6 +136,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="unit"
                                     type="string"
                                     placeholder="Enter unit..."
+                                    defaultValue={stock.unit}
                                     className="peer  w-50% rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -152,7 +154,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="container_quantity"
                                     type="number"
                                     placeholder="Enter container quantity..."
-                                    
+                                    defaultValue={stock.container_quantity}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -170,6 +172,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="units_per_container"
                                     type="number"
                                     placeholder="Enter units per container..."
+                                    defaultValue={stock.units_per_container}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -187,7 +190,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     name="total_quantity"
                                     type="number"
                                     placeholder="Enter total quantity..."
-                                    //defaultValue={'units_per_container * container_quantity'}
+                                    defaultValue={stock.total_quantity}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -203,7 +206,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                             id="supplier"
                             name="supplier"
                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue=""
+                            defaultValue={suppliers.find(test => test.id === stock.supplier_id)?.name}
                             >
                             <option value="" disabled>
                                 Select a supplier
@@ -266,6 +269,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     type="number"
                                     step="0.01"
                                     placeholder="Enter drug buy price..."
+                                    defaultValue={stock.buy_price/100}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -284,6 +288,7 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
                                     type="number"
                                     step="0.01"
                                     placeholder="Enter drug sell price..."
+                                    defaultValue={stock.sell_price/100}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -292,12 +297,12 @@ export default function Form({ id, suppliers, manufacturers }: { id: string; sup
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Link
-                  href = {`/dashboard/drugs/${drug_id}/viewstock`}
+                  href = {`/dashboard/drugs/${stock.drug_id}/viewstock`}
                   className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
                   Cancel
                 </Link>
-                <Button type="submit">Add Stock</Button>
+                <Button type="submit">Update Stock</Button>
             </div>
         </form>
     </div>

@@ -31,11 +31,10 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                     <div>
                       <p className="text-sm text-gray-500">{visit.pcompl}</p>
                       <p className="text-sm font-medium">{visit.hpc}</p>
-                      <p className="text-sm text-gray-500">{visit.pmhx}</p>
-                      <p className="text-sm text-gray-500">{visit.allergy}</p>
                       <p className="text-sm text-gray-500">{visit.examination}</p>
                       <p className="text-sm text-gray-500">{visit.investigations_sofar}</p>
                       <p className="text-sm text-gray-500">{visit.prescribed_med}</p>
+                      <p className="text-sm text-gray-500">{visit.prescription}</p>
                       <p className="text-sm text-gray-500">{visit.investigations_ordered}</p>
                     </div>
                   </div>
@@ -55,12 +54,6 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                     HPC
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium max-w-xs">
-                    PMHx
-                  </th>
-                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
-                    Allergy
-                  </th>
-                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Examination
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium max-w-xs">
@@ -68,6 +61,9 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Treatment
+                  </th>
+                  <th scope="col" className="px-3 py-5 font-medium max-w-xs">
+                    Prescription
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium max-w-xs">
                     Investigations ordered
@@ -94,12 +90,6 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                       {visit.hpc}
                     </td>
                     <td className="whitespace-normal px-3 py-3 max-w-xs">
-                      {(visit.pmhx)}
-                    </td>
-                    <td className="whitespace-normal px-3 py-3 max-w-xs">
-                      {(visit.allergy)}
-                    </td>
-                    <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.examination)}
                     </td>
                     <td className="whitespace-normal px-3 py-3 max-w-xs">
@@ -107,6 +97,9 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                     </td>
                     <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.prescribed_med)}
+                    </td>
+                    <td className="whitespace-normal px-3 py-3 max-w-xs">
+                      {(visit.prescription)}
                     </td>
                     <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.investigations_ordered)}

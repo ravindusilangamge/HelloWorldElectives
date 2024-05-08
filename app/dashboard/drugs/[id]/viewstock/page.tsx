@@ -6,7 +6,6 @@ import { AddStock } from '@/app/ui/drugs/buttons';
 
 
 export default async function Page( { params }: { params: { id: string } }) {
-
   const id = params.id;
   console.log(id);
 return (
