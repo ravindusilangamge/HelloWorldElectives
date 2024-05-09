@@ -1,7 +1,7 @@
 
 import { fetchDrugsforForm, fetchPatientsByVisit, fetchPrescriptionsByDate, fetchStocks } from "@/app/lib/data";
 import { lusitana } from "@/app/ui/fonts";
-import Form  from "@/app/ui/dispencer/dispenceform";
+//import Form  from "@/app/ui/dispencer/dispenceform";
 import Table  from "@/app/ui/dispencer/table";
 //import DropDown from "@/app/ui/dispencer/selectprescription";
 
