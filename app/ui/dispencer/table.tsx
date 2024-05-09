@@ -11,12 +11,12 @@ export default async function InvoicesTable() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-violet-400 p-2 md:pt-0">
           <div className="md:hidden">
             {prescriptionsToday?.map((visits) => (
               <div
                 key={visits.id}
-                    className={`mb-2 w-full rounded-md p-4 ${visits.dispensed ?  'bg-white' : 'bg-red-100'}`}              
+                    className={`mb-2 w-full rounded-md p-4 ${visits.dispensed ?  'bg-emerald-200' : 'bg-red-100'}`}              
                 >
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
@@ -36,7 +36,7 @@ export default async function InvoicesTable() {
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className="rounded-lg text-left text-white text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   Name
@@ -53,12 +53,13 @@ export default async function InvoicesTable() {
               {prescriptionsToday?.map((visits) => (
                 <tr
                   key={visits.id}
-                  className={`w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg ${visits.dispensed ?  'bg-white' : 'bg-red-100'}`}
+                  className={`w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg ${visits.dispensed ?  'bg-emerald-200' : 'bg-red-100'}`}
                 >
                   <td className="whitespace-normal px-3 py-3">
                     {todayPatients.find(test => test.p_id === visits.patient_id)?.name}
                   </td>
                   <td className="whitespace-normal px-3 py-3">
+                    {/* {drugDetails.find(test => test.drug_id === visits.prescription[0][0])?.drug_name_generic} */}
                     {visits.prescription}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
