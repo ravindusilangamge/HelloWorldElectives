@@ -394,7 +394,7 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                 leaveFrom="transform scale-100 opacity-100"
                                 leaveTo="transform scale-95 opacity-0"
                             >
-                            <Combobox.Options
+                            {/* <Combobox.Options
                                 className='focus-within:ring-1 focus-within:ring-blue-500 max-w-sm'
                             >
                                 {filteredDrug.map((drug) => (
@@ -402,10 +402,34 @@ export default function Form( values: {patient_id: string, patient_details: Pati
                                     key={drug.drug_id} 
                                     value= {`${drug.drug_id}`}
                                     className="mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 sm:text-sm focus-within:ring-1 focus-within:ring-blue-500">
-                                        {drug.drug_name_generic} {drug.drug_form} 
+                                        <span>{drug.drug_name_generic} {drug.drug_form}</span>
+                                        <span className="text-xs text-gray-500"> Available Quantity: {stocks.find(test => test.drug_id === drug.drug_id)?.total_quantity}</span>
                                 </Combobox.Option>
                                 ))}
-                            </Combobox.Options>
+                            </Combobox.Options> */}
+                            <Combobox.Options className='focus-within:ring-1 focus-within:ring-blue-500 max-w-sm'>
+                                {filteredDrug.map((drug) => {
+                                    // Filter stocks for the current drug
+                                    const drugStocks = stocks.filter(test => test.drug_id === drug.drug_id);
+                                    
+                                    // Calculate total quantity available for the current drug
+                                    const totalQuantityAvailable = drugStocks.reduce((acc, stock) => acc + stock.total_quantity, 0);
+                                    
+                                    return (
+                                    <Combobox.Option 
+                                        key={drug.drug_id} 
+                                        value={`${drug.drug_id}`}
+                                        className="mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 sm:text-sm focus-within:ring-1 focus-within:ring-blue-500"
+                                    >
+                                        <div>
+                                        <span>{drug.drug_name_generic} {drug.drug_form}</span>
+                                        <span className="text-xs text-gray-500"> Available Quantity: {totalQuantityAvailable}</span>
+                                        </div>
+                                    </Combobox.Option>
+                                    );
+                                })}
+                                </Combobox.Options>
+
                             </Transition>
                         </Combobox>
                         <label className="mb-2 text-sm font-medium relative pl-4">Dose</label>

@@ -13,6 +13,7 @@ import {
   DrugStocksTable,
   SuppliersTable,
   ManufacturersTable,
+  prescriptionTable,
   
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -590,9 +591,11 @@ export async function fetchPrescriptionsByDate() {
       SELECT
         visits.id,
         visits.patient_id,
-        visits.prescription
+        visits.prescription,
+        visits.dispensed
       FROM visits
-      WHERE DATE(visits.date) = ${today};
+      WHERE DATE(visits.date) = ${today}
+      ORDER BY id DESC;
     `;
 
     return data.rows;
@@ -653,4 +656,56 @@ export async function fetchPatientsByVisit() {
   }
 }
 
+export async function fetchVisitForPresById(id: string) {
+  noStore();
+  try {
+    const data = await sql<VisitsTable>`
+      SELECT
+        visits.id,
+        visits.patient_id,
+        visits.date,
+        visits.pcompl,
+        visits.hpc,
+        visits.examination,
+        visits.investigations_sofar,
+        visits.prescribed_med,
+        visits.investigations_ordered,
+        visits.prescription
+      FROM visits
+      WHERE visits.id = ${id};
+    `;
+
+    console.log(data);
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient visits.');
+  }
+}
+
+
+export async function fetchPrescriptionsByVisitID(id: string) {
+  noStore();
+  try {
+    const data = await sql<prescriptionTable>`
+      SELECT
+        prescriptions.id,
+        prescriptions.stock_id,
+        prescriptions.visit_id,
+        prescriptions.servedquantity,
+        prescriptions.billvalue,
+        prescriptions.date
+      FROM prescriptions
+      WHERE prescriptions.visit_id = ${id};
+    `;
+
+    console.log(data);
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient visits.');
+  }
+}
 

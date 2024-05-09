@@ -37,12 +37,12 @@ export default async function PatientsTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-green-400 p-2 md:pt-0">
           <div className="md:hidden">
             {patients?.map((patient) => (
               <div
                 key={patient.p_id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-green-100 p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
@@ -102,7 +102,7 @@ export default async function PatientsTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-green-100">
               {patients?.map((patient) => (
                 <tr
                   key={patient.p_id}

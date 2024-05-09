@@ -41,6 +41,7 @@ const FormSchema1 = z.object({
     prescribed_med: z.string(),
     investigations_ordered: z.string(),
     prescription: z.string(),
+    dispensed: z.boolean(),
   });
   const FormSchema3 = z.object({
     drug_id: z.string(),
@@ -93,7 +94,7 @@ const FormSchema1 = z.object({
   const UpdateInvoice = FormSchema.omit({ id: true, date: true });
   const AddPatient = FormSchema1.omit({});
   const UpdatePatient = FormSchema1.omit({});
-  const AddVisit = FormSchema2.omit({id: true});
+  const AddVisit = FormSchema2.omit({id: true, dispensed: true});
   const AddDrug = FormSchema3.omit({drug_id: true});
   const UpdateDrug = FormSchema3.omit({drug_id: true});
   const AddStock = FormSchema4.omit({stock_id: true});
@@ -101,6 +102,7 @@ const FormSchema1 = z.object({
   const AddSupplier =  FormSchema5.omit({id: true});
   const AddManufacturer = FormSchema6.omit({id: true});
   const AddDrugSale = FormSchema8.omit({id: true});
+  const UpdateVisitsDispense = FormSchema2.omit({id: true});
  
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -470,4 +472,49 @@ export async function updateInvoice(id: string, formData: FormData) {
       console.error('Error adding drug sale record:', error);
       throw error; // Rethrow the error to handle it in the calling code
     }
+  }
+
+  export async function addDrugsSale2(formData: FormData) {
+    const { visit_id, stock_id, quantity, amount } = AddDrugSale.parse({
+      
+      visit_id: formData.get('visit_id'),
+      stock_id: formData.get('stock_id'),
+      quantity: formData.get('quantity'),
+      amount: formData.get('amount'),
+      
+    });
+    const amountInCents = amount;
+    const date = new Date().toISOString().split('T')[0];
+  
+    await sql`
+      INSERT INTO prescriptions (visit_id, stock_id, servedquantity, billvalue, date)
+      VALUES (${visit_id}, ${stock_id}, ${quantity}, ${amountInCents}, ${date})
+    `;
+
+    await sql`
+        UPDATE drugstocks
+        SET total_quantity = total_quantity - ${quantity}
+        WHERE stock_id = ${stock_id}
+    `;
+  
+    // revalidatePath('/dashboard/drugs');
+    // redirect('/dashboard/drugs');
+  }
+
+  export async function updateVisitPrescription(id: string, formData: FormData) {
+    const dispensedString = formData.get('dispensed');
+    const dispensed = dispensedString === 'true';
+
+    try {
+    await sql`
+      UPDATE visits
+      SET dispensed = ${dispensed}
+      WHERE id = ${id}
+    `;
+    } catch (error) {
+    return { message: 'Database Error: Failed to Update Visit dispense.' };
+  }
+   
+    revalidatePath('/dashboard/dispencer');
+    redirect('/dashboard/dispencer');
   }

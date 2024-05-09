@@ -10,7 +10,7 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
         <div className="mt-2 flow-root">
         <div className="inline-block min-w-full align-middle">
         
-          <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          <div className="rounded-lg bg-teal-400 p-2 md:pt-0">
           {patient1 && patient1.length > 0 ? (
             <React.Fragment>
             <div className="md:hidden">
@@ -42,7 +42,7 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
               ))}
             </div>
             <table className="hidden min-w-full text-gray-900 md:table">
-              <thead className="rounded-lg text-left text-sm font-normal">
+              <thead className="rounded-lg text-left text-sm text-white font-normal">
                 <tr>
                   <th scope="col" className="px-4 py-5 font-medium sm:pl-6 max-w-xs">
                     Date

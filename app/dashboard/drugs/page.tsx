@@ -19,7 +19,7 @@ export default async function Page({
     const currentPage = Number(searchParams?.page) || 1;
     const totalPages = await fetchDrugsPages(query);
     return(
-        <div className="w-full">
+        <div className="">
             <div className="flex w-full items-center justify-between">
                 <h1 className={`${lusitana.className} text-2xl`}>Drug Details</h1>
             </div>
@@ -33,9 +33,11 @@ export default async function Page({
             <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={totalPages} />
             </div>
-            <div className='mt-4 mb-4 relative w-full ml-4 mr-4 justify-center'>
-              <div><AddSupplier/> </div>
-              <div className='mt-4'><AddManufacturer/></div>
+            <div className='w-full mt-4 mb-4 ml-4 mr-4 justify-center items-center'>
+              <div className='flex justify-center'>
+                <div className='mr-2 ml-2'><AddSupplier/></div>
+                <div className='mr-2 ml-2'><AddManufacturer/></div>
+              </div>
             </div>
             <div>
                 <iframe

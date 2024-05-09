@@ -36,3 +36,14 @@ export function DeleteInvoice({ id }: { id: string }) {
     </form>
   );
 }
+
+export function ViewPrescription({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/dispencer/${id}`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <PencilIcon className="w-5" />
+    </Link>
+  );
+}

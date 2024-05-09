@@ -118,6 +118,7 @@ export type VisitsTable = {
   prescribed_med: string;
   investigations_ordered: string;
   prescription: string[];
+  dispensed: boolean;
 };
 
 export type DrugsTableType ={
@@ -157,3 +158,12 @@ export type ManufacturersTable = {
   name: string;
   address: string;
 };
+
+export type prescriptionTable = {
+  id: string;
+  stock_id: string;
+  visit_id: string;
+  servedquantity: number;
+  billvalue: number;
+  date: string;
+}

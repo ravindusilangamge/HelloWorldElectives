@@ -93,8 +93,9 @@ export function Card({
 
       <div className="rounded-xl bg-teal-300 p-2 shadow-sm mt-4">
         <fieldset className='flex'>
-          <legend className="ml-2 text-md font-medium flex p-4">Allergy</legend>
-            <div className="flex gap-2 rounded-md mb-2 border border-gray-200 bg-white px-[14px] py-3">
+          <legend className=" text-md font-medium flex p-4 ">Allergy</legend>
+          {(food || drugs || plaster) && (
+            <div className="flex gap-2 rounded-md mb-2 border border-gray-200 bg-white px-[14px] py-3 w-full justify-center">
                   {food && (
                     <div className="flex items-center">
                       <label htmlFor="dm" className=" flex cursor-pointer items-center gap-1.5 rounded-full bg-red-100 px-3 py-1.5 text-xs font-medium text-gray-600">Food</label>
@@ -107,7 +108,7 @@ export function Card({
                   )}
                   {plaster && (
                     <div className="flex items-center">
-                      <label htmlFor="dl" className=" flex cursor-pointer items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-medium text-gray-600">Plater</label>
+                      <label htmlFor="dl" className=" flex cursor-pointer items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-medium text-gray-600">Plaster</label>
                     </div>
                   )}
                   {!food && !drugs && !plaster &&  (
@@ -117,8 +118,11 @@ export function Card({
                   )
                   }
             </div>
+          )}
         </fieldset>
-        <div className="flex rounded-md mb-4 border border-gray-200 bg-white px-[14px] py-3"> 
+        {/* {(allergy) && (  */}
+        <div className="flex rounded-md mb-4 border border-gray-200 bg-white px-[14px] py-3">
+        
           <div className="flex items-center">
               {allergy ? (
                 <label className='text-sm px-3 py-1.5'>{allergy}</label>
@@ -126,14 +130,16 @@ export function Card({
                 <label className='text-sm px-3 py-1.5'>No hx of allergy</label>
               )}
           </div>
+        
         </div>
+        {/* )} */}
       </div>
       </div>
 
       <div className="flex w-full rounded-xl bg-indigo-300 p-4 ml-4 shadow-sm">
         <fieldset className='flex w-full'>
           <legend className="ml-2 text-md font-medium flex p-4">Past Medical History</legend>
-          {!value7 || !value8 || !value9 || !value10 || (
+          {(value7 || value8 || value9 || value10) && (
             <div className="flex gap-2 rounded-md mb-2 border border-gray-200 bg-white px-[14px] py-3 mr-4">
                   {value7 && (
                     <div className="flex items-center">

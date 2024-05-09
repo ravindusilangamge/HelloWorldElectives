@@ -1,11 +1,11 @@
 import Breadcrumbs from "@/app/ui/patients/breadcrumbs";
 import Form from "@/app/ui/drugs/add-stock";
-import { fetchSuppliers, fetchManufacturers } from "@/app/lib/data";
+import { fetchSuppliers, fetchManufacturers, fetchDrugById } from "@/app/lib/data";
 
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    
+    const drugdetails = await fetchDrugById(id);
     const suppliers = await fetchSuppliers();
     const manufacturers = await fetchManufacturers();
     console.log(id);
@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Breadcrumbs
             breadcrumbs={[
                 { label: 'Drugs', href: '/dashboard/drugs' },
-                { label: id, href: `/dashboard/drugs/${id}/viewstock` },
+                { label: `${drugdetails.drug_name_generic}  ${drugdetails.drug_form}`, href: `/dashboard/drugs/${id}/viewstock` },
                 {
                 label: 'Add Stock',
                 href: `/dashboard/drugs/stocks/${id}`,

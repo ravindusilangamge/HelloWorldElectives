@@ -8,7 +8,7 @@ export default async function page() {
         breadcrumbs={[
           { label: 'Drugs', href: '/dashboard/drugs' },
           {
-            label: 'Add Suppliers',
+            label: 'Add Manufacturer',
             href: '/dashboard/drugs/suppliers',
             active: true,
           },
