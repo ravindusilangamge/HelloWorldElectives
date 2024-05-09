@@ -7,7 +7,7 @@ import { Button } from "../button";
 import { updateVisitPrescription } from "@/app/lib/actions";
 import Link from "next/link";
 
-export default function Form({drugsDispensed, id}: {drugsDispensed: prescriptionTable[], id: string}){
+export default function Form({drugsDispensed, id, totalValue}: {drugsDispensed: prescriptionTable[], id: string,totalValue: number}) {
     const [billValue, setBillValue] = useState<number | 0>(0);
     useEffect(() => {
         // Calculate total bill value when drugsDispensed changes
@@ -18,7 +18,7 @@ export default function Form({drugsDispensed, id}: {drugsDispensed: prescription
 
         // Update state with the total bill value
         setBillValue(totalBill);
-    }, [drugsDispensed]);
+    }, [drugsDispensed, totalValue]);
     const updateDispenseVisitId = updateVisitPrescription.bind(null, id);
     return (
         <div>

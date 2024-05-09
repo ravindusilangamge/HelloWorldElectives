@@ -5,6 +5,7 @@ import Form1 from "@/app/ui/dispencer/bottom";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
+    let totalValue= 0;
     const drugStocks = await fetchStocks();
     const drugDetails = await fetchDrugsforForm();
     const todayPatients = await fetchPatientsByVisit();
@@ -32,12 +33,12 @@ export default async function Page({ params }: { params: { id: string } }) {
         </fieldset>
         {visitDetails.prescription.map((item, index) => (
                 <div key={index}>
-                    <Form drug = {item[0]} dose = {parseInt(item[1])} freq = {parseInt(item[2])} days = {parseInt(item[3])} drugdetails = {drugDetails} drugstocks ={drugStocks} visit_id={id}/>
+                    <Form drug = {item[0]} dose = {parseInt(item[1])} totalValue = {totalValue} freq = {parseInt(item[2])} days = {parseInt(item[3])} drugdetails = {drugDetails} drugstocks ={drugStocks} visit_id={id}/>
                 </div>
             ))}
       </div>
       <div>
-            <Form1 drugsDispensed = {prescriptionsByVisit} id = {id}/>
+            <Form1 drugsDispensed = {prescriptionsByVisit} id = {id} totalValue = {totalValue}/>
       </div>
     </div>
     );

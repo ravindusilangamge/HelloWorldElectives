@@ -1,11 +1,11 @@
 export default function Page() {
   return (
     <iframe
-      src="http://metabase.expergen.com/public/dashboard/de94021c-de77-4014-ac7f-ae901d3c6c95"
-      frameBorder="0"
-      style={{ width: '100%', height: '90vh', border: 'none' }}
-      allowTransparency
-      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-    ></iframe>
+    src="https://metabase.expergen.com/public/dashboard/8473133b-6791-41dc-bfda-76f1d1e7a43b"
+    frameBorder="0"
+    width="100%"
+    height="600"
+    allowTransparency
+></iframe>
   );
 }

@@ -7,7 +7,7 @@ import { Button } from "../button";
 import { formatCurrency, formatDateToLocal } from "@/app/lib/utils";
 import { useState } from "react";
 
-export default function Form({drug, dose, freq, days, drugdetails, drugstocks, visit_id}: {drug: string, dose: number, freq: number, days: number, drugdetails: DrugsTableType[], drugstocks: DrugStocksTable[], visit_id: string}){
+export default function Form({drug, dose, freq, days, drugdetails, drugstocks, visit_id, totalValue}: {drug: string, dose: number, freq: number, days: number, drugdetails: DrugsTableType[], drugstocks: DrugStocksTable[], visit_id: string, totalValue: number}){
     const [selectedDrugDose, setSelectedDrugDose] = useState<number | 1>(1);
     const [selectedDrugSellPrice, setSelectedDrugSellPrice] = useState<number | 1>(1);
     const [display, setDisplay] = useState<boolean | false>(false);
@@ -20,6 +20,7 @@ export default function Form({drug, dose, freq, days, drugdetails, drugstocks, v
         setSelectedDrugDose(selectedDrug?.drug_dose || 1);
         setSelectedDrugSellPrice(selectedDrug?.sell_price || 1);
         setDisplay(true);
+        totalValue += 1;
     };
 
     const handleButtonClick = () => {

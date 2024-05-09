@@ -26,6 +26,7 @@ const links = [
   {name: 'Patients', href: '/dashboard/patients', icon: UserIcon },
   {name: 'Drugs', href: '/dashboard/drugs', icon: BeakerIcon},
   {name: 'Dispenser', href: '/dashboard/dispencer', icon: ShoppingBagIcon},
+  {name: 'Drug Sales', href: '/dashboard/customers', icon: UserGroupIcon}
   
 ];
 
