@@ -2,6 +2,7 @@ import { fetchDrugsforForm, fetchPatientsByVisit, fetchPrescriptionsByVisitID, f
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import Form from "@/app/ui/dispencer/newform";
 import Form1 from "@/app/ui/dispencer/bottom";
+import { Suspense } from 'react';
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -38,7 +39,9 @@ export default async function Page({ params }: { params: { id: string } }) {
             ))}
       </div>
       <div>
+        
             <Form1 drugsDispensed = {prescriptionsByVisit} id = {id} totalValue = {totalValue}/>
+        
       </div>
     </div>
     );

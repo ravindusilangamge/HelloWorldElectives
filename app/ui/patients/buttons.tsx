@@ -60,25 +60,3 @@ export function AddPatient1() {
     );
   }
 
-  // export function UpdateDrug({ id }: { id: string }) {
-  //   return (
-  //     <Link
-  //       href={`/dashboard/drugs/${id}/edit`}
-  //       className="rounded-md border p-2 hover:bg-gray-100"
-  //     >
-  //       <PencilIcon className="w-5" />
-  //     </Link>
-  //   );
-  // }
-
-  // export function DeleteDrug({ id }: { id: string }) {
-  //   const deletePatientWithId = deletePatient.bind(null, id);
-  //   return (
-  //     <form action={deletePatientWithId}>
-  //       <button className="rounded-md border p-2 hover:bg-gray-100">
-  //         <span className="sr-only">Delete</span>
-  //         <TrashIcon className="w-5" />
-  //       </button>
-  //     </form>
-  //   );
-  // }

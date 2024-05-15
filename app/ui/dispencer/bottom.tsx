@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { Button } from "../button";
 import { updateVisitPrescription } from "@/app/lib/actions";
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default function Form({drugsDispensed, id, totalValue}: {drugsDispensed: prescriptionTable[], id: string,totalValue: number}) {
+    noStore();
     const [billValue, setBillValue] = useState<number | 0>(0);
     useEffect(() => {
         // Calculate total bill value when drugsDispensed changes

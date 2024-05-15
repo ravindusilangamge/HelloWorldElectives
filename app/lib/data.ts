@@ -274,7 +274,7 @@ export async function fetchPatients(
         patientdetails.gender ILIKE ${`%${query}%`} OR
         patientdetails.p_id ILIKE ${`%${query}%`} OR
         patientdetails.phonenumber ILIKE ${`%${query}%`}
-      ORDER BY patientdetails.p_id DESC
+      ORDER BY patientdetails.name ASC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 

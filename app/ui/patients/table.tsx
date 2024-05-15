@@ -44,30 +44,34 @@ export default async function PatientsTable({
                 key={patient.p_id}
                 className="mb-2 w-full rounded-md bg-green-100 p-4"
               >
-                <div className="flex items-center justify-between border-b pb-4">
+                <div className="flex items-center justify-between border-b pb-2">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <p>{patient.name}</p>
+                      <p className="text-xl font-medium">
+                        {patient.name}
+                      </p>
                     </div>
+                    <div>
                     {patient.birthdate ? (
                     <>
                       {calculateAge(new Date(patient.birthdate)).years} years {calculateAge(new Date(patient.birthdate)).months} months
                     </>
                     ) : null}
+                    </div>
+                     <p>
+                     {patient.gender === 'male' ? 'Male' : patient.gender === 'female' ? 'Female' : patient.gender}
+                    </p>
                   </div>
                 </div>
-                <div className="flex w-full items-center justify-between pt-4">
+                <div className=" w-full items-center justify-between pt-4">
                   <div>
-                    <p className="text-xl font-medium">
-                      {patient.gender}
-                    </p>
                     <p>{patient.phonenumber}</p>
-                    {/* <p>{formatDateToLocal(patient.birthdate)}</p> */}
-                    <p>{patient.address}</p>
+                    <p className=''> {patient.address}</p>
                   </div>
-                  <div className="flex justify-end gap-2">
+                  <div className="flex justify-center gap-2">
+                    <ViewPatient id = {patient.p_id}/>
                     <UpdatePatient id={patient.p_id} />
-                    {/* <DeletePatient id={patient.p_id} /> */}
+                    <DeletePatient id={patient.p_id} />
                   </div>
                 </div>
               </div>
@@ -91,9 +95,6 @@ export default async function PatientsTable({
                 <th scope="col" className="px-3 py-5 font-medium">
                   Phone number
                 </th>
-                {/* <th scope="col" className="px-3 py-5 font-medium">
-                  Birthdate
-                </th> */}
                 <th scope="col" className="px-3 py-5 font-medium">
                   Address
                 </th>
@@ -119,20 +120,17 @@ export default async function PatientsTable({
                   <td className="whitespace-nowrap px-3 py-3">
                   {patient.birthdate ? (
                       <>
-                        {calculateAge(new Date(patient.birthdate)).years} years {calculateAge(new Date(patient.birthdate)).months} months
+                        {calculateAge(new Date(patient.birthdate)).years} Years {calculateAge(new Date(patient.birthdate)).months} M
                       </>
                     ) : null}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {patient.gender}
+                    {patient.gender === 'male' ? 'Male' : patient.gender === 'female' ? 'Female' : patient.gender}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {patient.phonenumber}
                   </td>
-                  {/* <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(patient.birthdate)}
-                  </td> */}
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-normal px-3 py-3">
                     {patient.address}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">

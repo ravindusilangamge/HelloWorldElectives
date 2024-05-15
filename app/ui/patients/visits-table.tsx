@@ -1,10 +1,17 @@
+'use client'
 import { fetchPatientById, fetchVisitsById } from '@/app/lib/data';
 import { PatientsTableType, VisitsTable } from '@/app/lib/definitions';
 import { formatDateToLocal,  } from '@/app/lib/utils';
-import React from 'react';
+import React, { useState } from 'react';
+import Popup from 'reactjs-popup';
+
+
 
 export default async function VisitTable({patient1}: {patient1: VisitsTable[];}){
-    //const patients = await fetchVisitsById(patient1);
+    
+   
+
+
     return(
       <div className="mt-1 overflow-x-auto">
         <div className="mt-2 flow-root">
@@ -104,12 +111,12 @@ export default async function VisitTable({patient1}: {patient1: VisitsTable[];})
                     <td className="whitespace-normal px-3 py-3 max-w-xs">
                       {(visit.investigations_ordered)}
                     </td>
-                    {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateInvoice id={invoice.id} />
-                        <DeleteInvoice id={invoice.id} />
+                        {/* <UpdateInvoice id={invoice.id} />
+                        <DeleteInvoice id={invoice.id} /> */}
                       </div>
-                    </td> */}
+                    </td>
                   </tr>
                 ))}
               </tbody>

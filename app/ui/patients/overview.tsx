@@ -69,7 +69,7 @@ export function Card({
   type: 'p_id' | 'name' | 'age' | 'gender' | 'address';
 }) {
   return (
-    <div className='flex '>
+    <div className='flex wrap'>
       <div className=''>
       <div className="rounded-xl bg-rose-400 p-2 shadow-sm pb-4">
         <div className="flex p-4">
@@ -161,12 +161,6 @@ export function Card({
                       <label htmlFor="ba" className=" flex cursor-pointer items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-xs font-medium text-gray-600">BA</label>
                     </div>
                   )}
-                  {/* {!value7 && !value8 && !value9 && !value10 && (
-                      <div className="flex items-center">
-                        <label htmlFor="none" className=" flex cursor-pointer items-center gap-1.5 rounded-full bg-grey-100 px-3 py-1.5 text-xs font-medium text-gray-600">No Diabetes Mellitus, Hypertension, Dislipidemia or Bronchial Asthma</label>
-                      </div>
-                  )
-                  } */}
             </div>
           )}
           <div className="flex w-full justify-center rounded-md mb-2 border border-gray-200 bg-white px-[14px] py-3"> 
@@ -174,7 +168,7 @@ export function Card({
               {value6 ? (
                 <label className='text-sm'>{value6}</label>
               ) : (
-                <label className='text-sm'>No significant Past Medical History</label>
+                <label className='text-sm'>No Notes</label>
               )}
             </div>
           </div>

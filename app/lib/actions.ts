@@ -502,6 +502,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function updateVisitPrescription(id: string, formData: FormData) {
+    
     const dispensedString = formData.get('dispensed');
     const dispensed = dispensedString === 'true';
 
@@ -518,3 +519,7 @@ export async function updateInvoice(id: string, formData: FormData) {
     revalidatePath('/dashboard/dispencer');
     redirect('/dashboard/dispencer');
   }
+
+function noStore() {
+  throw new Error('Function not implemented.');
+}
