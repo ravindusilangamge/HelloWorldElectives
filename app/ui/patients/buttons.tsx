@@ -1,6 +1,7 @@
 import { PencilIcon, PlusIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deletePatient } from '@/app/lib/actions';
+import { deletePatient, deleteVisit } from '@/app/lib/actions';
+
 
 export function AddPatient1() {
     return (
@@ -57,6 +58,18 @@ export function AddPatient1() {
         <span className="hidden md:block">Add Visit</span>{' '}
         <PlusIcon className="h-5 md:ml-4" />
       </Link>
+    );
+  }
+
+  export function DeleteVisit({ id }: { id: string }) {
+    const deleteVisitWithId = deleteVisit.bind(null, id);
+    return (
+      <form action={deleteVisitWithId}>
+        <button className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-5" />
+        </button>
+      </form>
     );
   }
 

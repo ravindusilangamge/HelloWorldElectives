@@ -258,6 +258,17 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
   }
 
+  export async function deleteVisit(id: string) {
+    //throw new Error('Failed to Delete Invoice');
+    try {
+    await sql`DELETE FROM visits WHERE id = ${id}`;
+    revalidatePath('/dashboard/patients');
+    return { message: 'Deleted visit.' };
+    } catch (error) {
+    return { message: 'Database Error: Failed to Delete visit.' };
+  }
+  }
+
   export async function addVisit(formData: FormData) {
     const {p_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered,prescription} = AddVisit.parse({
       // id: formData.get('id'),
