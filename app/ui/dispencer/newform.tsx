@@ -31,7 +31,7 @@ export default function Form({drug, dose, freq, days, drugdetails, drugstocks, v
     return (
         <div>
             {/* Drug Name: {drugdetails.find(test => test.drug_id === drug)?.drug_name_generic}  */}
-            <form action={addDrugsSale2}>
+            <form action={'addDrugsSale2'}>
                 <div className="rounded-md bg-gray-50 p-4 md:p-6">
                     {/* Visit ID */}
                     <input type="hidden" name="visit_id" value={visit_id} />
