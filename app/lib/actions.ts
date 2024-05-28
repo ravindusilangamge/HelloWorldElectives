@@ -485,29 +485,45 @@ export async function updateInvoice(id: string, formData: FormData) {
     }
   }
 
-  export async function addDrugsSale2(formData: FormData) {
-    const { visit_id, stock_id, quantity, amount } = AddDrugSale.parse({
-      
-      visit_id: formData.get('visit_id'),
-      stock_id: formData.get('stock_id'),
-      quantity: formData.get('quantity'),
-      amount: formData.get('amount'),
-      
-    });
-    const amountInCents = amount;
+  export async function addDrugsSale2(formData: FormData, totalDrugs: number) {
     const date = new Date().toISOString().split('T')[0];
   
-    await sql`
-      INSERT INTO prescriptions (visit_id, stock_id, servedquantity, billvalue, date)
-      VALUES (${visit_id}, ${stock_id}, ${quantity}, ${amountInCents}, ${date})
-    `;
-
-    await sql`
-        UPDATE drugstocks
-        SET total_quantity = total_quantity - ${quantity}
-        WHERE stock_id = ${stock_id}
-    `;
+    for (let i = 0; i < totalDrugs; i++) {
+      const visit_id = formData.get(`visit_id_${i}`);
+      const stock_id = formData.get(`stock_id_${i}`);
+      const quantity = formData.get(`quantity_${i}`);
+      const amount = formData.get(`amount_${i}`);
   
+      // Validate the form data for the current drug
+      const parsedData = AddDrugSale.parse({
+        visit_id,
+        stock_id,
+        quantity: Number(quantity),
+        amount: Number(amount),
+      });
+  
+      const amountInCents = parsedData.amount;
+  
+      try {
+        // Insert the prescription record into the database
+        await sql`
+          INSERT INTO prescriptions (visit_id, stock_id, servedquantity, billvalue, date)
+          VALUES (${parsedData.visit_id}, ${parsedData.stock_id}, ${parsedData.quantity}, ${amountInCents}, ${date})
+        `;
+  
+        // Update the drug stock quantity in the database
+        await sql`
+          UPDATE drugstocks
+          SET total_quantity = total_quantity - ${parsedData.quantity}
+          WHERE stock_id = ${parsedData.stock_id}
+        `;
+      } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to add drug sale');
+      }
+    }
+  
+    // Optional: Revalidate path and redirect (uncomment if necessary)
     // revalidatePath('/dashboard/drugs');
     // redirect('/dashboard/drugs');
   }
