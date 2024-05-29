@@ -493,6 +493,12 @@ export async function updateInvoice(id: string, formData: FormData) {
       const stock_id = formData.get(`stock_id_${i}`);
       const quantity = formData.get(`quantity_${i}`);
       const amount = formData.get(`amount_${i}`);
+
+      // Check if any of the required values are null
+      if (visit_id === null || stock_id === null || quantity === null || amount === null) {
+        // Skip this iteration if any of the values are null
+        continue;
+      }
   
       // Validate the form data for the current drug
       const parsedData = AddDrugSale.parse({

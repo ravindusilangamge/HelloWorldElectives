@@ -22,6 +22,7 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
     const [buttonClicked, setButtonClicked] = useState<boolean[]>(new Array(visitdetails.prescription.length).fill(false));
     const [buttonString, setButtonString] = useState<string[]>(new Array(visitdetails.prescription.length).fill('Add'));
     const [totalPrice, setTotalPrice] = useState<number>(0);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const handleDrugSelect = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
         const drugId = event.target.value;
@@ -59,6 +60,8 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
     };
 
     const handleButtonClick = (price: number, index: number) => {
+        if (buttonClicked[index]) return;
+
         setTotalPrice(prevTotalPrice => prevTotalPrice + price);
 
         setButtonClicked(prevClicked => {
@@ -76,16 +79,61 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
 
     const handleDispense = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
         const totalDrugs = visitdetails.prescription.length;
         const formData = new FormData(event.currentTarget);
 
         try {
-            //updateVisitPrescription.bind(null, id); 
             await updateVisitPrescription(id, formData);
             await addDrugsSale2(formData, totalDrugs);
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error (e.g., show notification to the user)
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleClear = (price: number, index: number, test: boolean) => {
+        if (test){
+            setTotalPrice(prevTotalPrice => prevTotalPrice - price);
+        }
+        
+        setButtonClicked(prevClicked => {
+            const newClicked = [...prevClicked];
+            newClicked[index] = false;
+            return newClicked;
+        });
+
+        setButtonString(prevStrings => {
+            const newStrings = [...prevStrings];
+            newStrings[index] = 'Add';
+            return newStrings;
+        });
+
+        setSelectedDrugDose(prevDoses => {
+            const newDoses = [...prevDoses];
+            newDoses[index] =  1;
+            return newDoses;
+        });
+
+        setSelectedDrugSellPrice(prevPrices => {
+            const newPrices = [...prevPrices];
+            newPrices[index] =  1;
+            return newPrices;
+        });
+
+        setDisplay(prevDisplay => {
+            const newDisplay = [...prevDisplay];
+            newDisplay[index] = false;
+            return newDisplay;
+        });
+
+        const selectElement = document.getElementById(`stock_${index}`) as HTMLSelectElement;
+        if (selectElement) {
+            selectElement.value = '';
         }
     };
 
@@ -109,7 +157,7 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
                                     defaultValue=""
                                     onChange={(event) => handleDrugSelect(event, index)}
                                 >
-                                    <option value="" disabled>
+                                    <option id = 'selectDefault' value="" disabled>
                                         Select a drug brand
                                     </option>
                                     {drugstocks
@@ -139,9 +187,23 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
                         </div>
                     </div>
                     <div className="mt-4 mb-4 flex justify-end gap-4">
-                        <Button type="button" onClick={() => handleButtonClick((parseInt(item[1]) * parseInt(item[2]) * parseInt(item[3]) / selectedDrugDose[index]) * selectedDrugSellPrice[index], index)} className={buttonClicked[index] ? 'bg-red-500 hover:bg-red-400' : ''}>
+                        <Button 
+                            type="button" 
+                            onClick={() => handleButtonClick((parseInt(item[1]) * parseInt(item[2]) * parseInt(item[3]) / selectedDrugDose[index]) * selectedDrugSellPrice[index], index)} 
+                            className={buttonClicked[index] ? 'bg-red-500 hover:bg-red-400' : ''} 
+                            disabled={buttonClicked[index]}
+                        >
                             {buttonString[index] || 'Add'}
                         </Button>
+                        {(buttonClicked[index] || display[index]) && (
+                            <Button className={'bg-gray-400 hover:bg-gray-300'}
+                            type = 'button'
+                            onClick={() => handleClear((parseInt(item[1]) * parseInt(item[2]) * parseInt(item[3]) / selectedDrugDose[index]) * selectedDrugSellPrice[index], index, buttonClicked[index])}
+                        >
+                            Clear
+                        </Button>
+                        )}
+                        
                     </div>
                 </div>
             ))}
@@ -156,7 +218,7 @@ export default function Form({ id, drugdetails, drugstocks, visit_id, visitdetai
                 >
                     Cancel
                 </Link>
-                <Button type="submit">
+                <Button type="submit" disabled={isSubmitting}>
                     Dispense
                 </Button>
             </div>
