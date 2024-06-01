@@ -1,7 +1,7 @@
-
 import { ViewPrescription, ViewBill } from '@/app/ui/invoices/buttons';
 import { fetchDrugsforForm, fetchPatientsByVisit, fetchPrescriptionsByDate, fetchVisitForPresById } from '@/app/lib/data';
 import InvoiceStatus from '@/app/ui/dispencer/status';
+import React from 'react';
 
 export default async function InvoicesTable() {
   //const invoices = await fetchFilteredInvoices(query, currentPage);
@@ -31,17 +31,17 @@ export default async function InvoicesTable() {
             {sortedPrescriptions.map((visits, index) => (
               <div
                 key={index}
-                    className={`mb-2 w-full rounded-md p-4 ${visits.dispensed ?  'bg-emerald-200' : 'bg-red-100'}`}              
-                >
+                className={`mb-2 w-full rounded-md p-4 ${visits.dispensed ? 'bg-emerald-200' : 'bg-red-100'}`}
+              >
                 <div className="flex w-full items-center justify-between pt-2">
                   <div>
                     <p className="text-xl font-medium justify-between items-center mb-2">
-                      <span className='inline-flex items-center rounded-lg px-2 py-1 text-xs text-white bg-blue-400 font-bold'>{index +1}</span>
+                      <span className='inline-flex items-center rounded-lg px-2 py-1 text-xs text-white bg-blue-400 font-bold'>{index + 1}</span>
                       <span className='pl-2 px-2 py-1 '>{' '}{todayPatients.find(test => test.p_id === visits.patient_id)?.name}</span>
                     </p>
                     <p className="text-xl font-small">
-                      {visits.prescription?.map((test1) => (
-                        <>{drugDetails.find(test => test.drug_id === test1[0])?.drug_name_generic}<br></br></>
+                      {visits.prescription?.map((test1, subIndex) => (
+                        <React.Fragment key={subIndex}>{drugDetails.find(test => test.drug_id === test1[0])?.drug_name_generic}<br /></React.Fragment>
                       ))}
                     </p>
                   </div>
@@ -75,35 +75,29 @@ export default async function InvoicesTable() {
               {sortedPrescriptions.map((visits, index) => (
                 <tr
                   key={index}
-                  className={`w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg ${visits.dispensed ?  'bg-emerald-100' : 'bg-red-100'}`}
+                  className={`w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg ${visits.dispensed ? 'bg-emerald-100' : 'bg-red-100'}`}
                 >
                   <td className="whitespace-normal px-3 py-3 w-12 text-center">
-                    <span className='inline-flex items-center rounded-lg px-2 py-1 text-xs text-white bg-blue-400 font-bold'>{index +1}</span>
+                    <span className='inline-flex items-center rounded-lg px-2 py-1 text-xs text-white bg-blue-400 font-bold'>{index + 1}</span>
                   </td>
                   <td className="whitespace-normal px-3 py-3">
                     {todayPatients.find(test => test.p_id === visits.patient_id)?.name}
                   </td>
                   <td className="whitespace-normal px-3 py-3">
-                    {/* {drugDetails.find(test => test.drug_id === visits.prescription[0][0])?.drug_name_generic} */}
-                    {visits.prescription?.map((test1) => (
-                      <p>{drugDetails.find(test => test.drug_id === test1[0])?.drug_name_generic}{' '}</p>
+                    {visits.prescription?.map((test1, subIndex) => (
+                      <p key={subIndex}>{drugDetails.find(test => test.drug_id === test1[0])?.drug_name_generic}{' '}</p>
                     ))}
-                    
                   </td>
                   <td className="whitespace-normal px-3 py-3 text-center">
                     <InvoiceStatus status={visits.dispensed} />
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                    {visits.dispensed ? (
-                      <ViewBill id={visits.id} />
-                    ) : (
-                      <>
+                      {visits.dispensed ? (
+                        <ViewBill id={visits.id} />
+                      ) : (
                         <ViewPrescription id={visits.id} />
-                      </>
-                    )}
-                      
-                      {/* <DeleteInvoice id={visits.id} /> */}
+                      )}
                     </div>
                   </td>
                 </tr>
