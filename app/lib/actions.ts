@@ -287,15 +287,24 @@ export async function updateInvoice(id: string, formData: FormData) {
 
     const dateReal = new Date().toISOString();
     
-    const test = JSON.parse(prescription);
+    //const test = JSON.parse(prescription);
+    let parsedPrescription = null;
+
+    if (prescription) {
+      try {
+        parsedPrescription = JSON.parse(prescription as string);
+      } catch (error) {
+        console.error('Error parsing prescription JSON:', error);
+      }
+    }
 
     console.log(FormData);
-    console.log('this is the value of test - ', test);
+    console.log('this is the value of test - ', parsedPrescription);
     console.log('this is prescription', prescription);
   
     await sql`
       INSERT INTO visits (patient_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered, prescription, datereal)
-      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered}, ${test}, ${dateReal})
+      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered}, ${parsedPrescription}, ${dateReal})
     `;
   
     revalidatePath('/dashboard/patients');

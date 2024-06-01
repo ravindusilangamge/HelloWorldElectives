@@ -1,4 +1,4 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, ShoppingCartIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteInvoice } from '@/app/lib/actions';
 
@@ -41,9 +41,20 @@ export function ViewPrescription({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/dispencer/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border p-2 hover:bg-gray-100 border-white bg-white"
     >
-      <PencilIcon className="w-5" />
+      <ShoppingCartIcon className="w-5" />
+    </Link>
+  );
+}
+
+export function ViewBill({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/dispencer/bill/${id}`}
+      className="rounded-md border p-2 hover:bg-gray-100 border-white bg-white"
+    >
+      <EyeIcon className="w-5" />
     </Link>
   );
 }

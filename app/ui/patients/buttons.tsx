@@ -19,7 +19,7 @@ export function AddPatient1() {
     return (
       <Link
         href={`/dashboard/patients/${id}/edit`}
-        className="rounded-md border p-2 hover:bg-gray-100"
+        className="rounded-md border p-2 hover:bg-gray-100 bg-white"
       >
         <PencilIcon className="w-5" />
       </Link>
@@ -30,7 +30,7 @@ export function AddPatient1() {
     const deletePatientWithId = deletePatient.bind(null, id);
     return (
       <form action={deletePatientWithId}>
-        <button className="rounded-md border p-2 hover:bg-gray-100">
+        <button className="rounded-md border p-2 hover:bg-gray-100 bg-white">
           <span className="sr-only">Delete</span>
           <TrashIcon className="w-5" />
         </button>
@@ -42,7 +42,7 @@ export function AddPatient1() {
     return (
       <Link
         href={`/dashboard/patients/${id}/edit/view`}
-        className="rounded-md border p-2 hover:bg-gray-100"
+        className="rounded-md border p-2 hover:bg-gray-100 bg-white"
       >
         <EyeIcon className="w-5" />
       </Link>
@@ -65,7 +65,7 @@ export function AddPatient1() {
     const deleteVisitWithId = deleteVisit.bind(null, id);
     return (
       <form action={deleteVisitWithId}>
-        <button className="rounded-md border p-2 hover:bg-gray-100">
+        <button className="rounded-md border p-2 hover:bg-gray-100 bg-white">
           {/* <span className="sr-only">Delete</span> */}
           <TrashIcon className="w-5" />
         </button>
