@@ -586,7 +586,9 @@ export async function fetchManufacturersById(id: string) {
 export async function fetchPrescriptionsByDate() {
   noStore();
   try {
-    const today = new Date().toISOString().split('T')[0];
+    //const today = new Date().toISOString().split('T')[0];
+    const today: Date = new Date();
+    const localDate: string = today.toLocaleDateString('en-CA');  
     const data = await sql<VisitsTable>`
       SELECT
         visits.id,
@@ -595,7 +597,7 @@ export async function fetchPrescriptionsByDate() {
         visits.dispensed,
         visits.datereal
       FROM visits
-      WHERE DATE(visits.date) = ${today}
+      WHERE DATE(visits.datereal AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Kolkata') = ${localDate}
       ORDER BY id DESC;
     `;
 
@@ -710,3 +712,24 @@ export async function fetchPrescriptionsByVisitID(id: string) {
   }
 }
 
+export async function fetchPatientByVisitIDforBill(id: string) {
+  noStore();
+  try {
+    //const today = new Date().toISOString().split('T')[0];
+    const data = await sql<PatientsTableType>`
+      SELECT
+        patientdetails.p_id,
+        patientdetails.name,
+        patientdetails.address,
+        patientdetails.phonenumber
+      FROM patientdetails
+      JOIN visits ON patientdetails.p_id = visits.patient_id
+      WHERE visits.id = ${id};
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch prescriptions for today.');
+  }
+}
