@@ -15,7 +15,7 @@ export default async function DrugsTable({
     return (
       <div className="mt-6 flow-root">
         <div className="inline-block min-w-full align-middle">
-          <div className="rounded-lg bg-lime-400 p-2 md:pt-0">
+          <div className="rounded-lg bg-blue-400 p-2 md:pt-0">
             <div className="md:hidden">
               {drugs?.map((drug) => (
                 <div
@@ -49,12 +49,12 @@ export default async function DrugsTable({
               ))}
             </div>
             <table className="hidden min-w-full text-gray-900 md:table">
-              <thead className="rounded-lg text-left text-sm font-normal">
+              <thead className="rounded-lg text-left text-white text-sm font-normal">
                 <tr>
                   <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                     Drug ID
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
+                  <th scope="col" className="px-3 py-5 font-medium text-right">
                     Generic name
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
@@ -78,20 +78,21 @@ export default async function DrugsTable({
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {drugs?.map((drug) => (
+                {drugs?.map((drug, index) => (
                   <tr
                     key={drug.drug_id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-normal py-3 pl-6 pr-3">
-                      <div className="flex items-center gap-3">
-                        <p>{drug.drug_id}</p>
-                      </div>
+                    <td className="whitespace-nowrap py-3 pl-6 pr-3 w-5">
+                      <div className='truncate'>{drug.drug_id.slice(0,8)}</div>
+                      {/* <div className="flex items-center gap-3">
+                        
+                      </div> */}
                     </td>
-                    <td className="whitespace-normal px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 text-right">
                       {drug.drug_name_generic}
                     </td>
-                    <td className="whitespace-normal px-3 py-3">
+                    <td className="whitespace-normal px-3 py-3 text-left">
                       {drug.drug_form}
                     </td>
                     {/* <td className="whitespace-normal px-3 py-3">
