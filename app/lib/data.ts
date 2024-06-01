@@ -592,7 +592,8 @@ export async function fetchPrescriptionsByDate() {
         visits.id,
         visits.patient_id,
         visits.prescription,
-        visits.dispensed
+        visits.dispensed,
+        visits.datereal
       FROM visits
       WHERE DATE(visits.date) = ${today}
       ORDER BY id DESC;

@@ -284,6 +284,8 @@ export async function updateInvoice(id: string, formData: FormData) {
       investigations_ordered: formData.get('investigations_ordered'),
       prescription: formData.get('prescription'),
     });
+
+    const dateReal = new Date().toISOString();
     
     const test = JSON.parse(prescription);
 
@@ -292,8 +294,8 @@ export async function updateInvoice(id: string, formData: FormData) {
     console.log('this is prescription', prescription);
   
     await sql`
-      INSERT INTO visits (patient_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered, prescription)
-      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered}, ${test})
+      INSERT INTO visits (patient_id, date, pCompl, hpc, examination, investigations_sofar, prescribed_med, investigations_ordered, prescription, datereal)
+      VALUES (${p_id}, ${date}, ${pCompl}, ${hpc}, ${examination},${investigations_sofar},${prescribed_med},${investigations_ordered}, ${test}, ${dateReal})
     `;
   
     revalidatePath('/dashboard/patients');
@@ -486,7 +488,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   export async function addDrugsSale2(formData: FormData, totalDrugs: number) {
-    const date = new Date().toISOString().split('T')[0];
+    const date = new Date().toISOString();
   
     for (let i = 0; i < totalDrugs; i++) {
       const visit_id = formData.get(`visit_id_${i}`);

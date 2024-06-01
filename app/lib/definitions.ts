@@ -119,6 +119,7 @@ export type VisitsTable = {
   investigations_ordered: string;
   prescription: string[];
   dispensed: boolean;
+  datereal: string;
 };
 
 export type DrugsTableType ={
