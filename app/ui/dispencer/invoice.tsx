@@ -19,13 +19,14 @@ export default function Invoice(
         stockData: DrugStocksTable[],
         drugData: DrugsTableType[]
     }) {
+
+    const consultationFee = 50000;
     const date = prescriptionData[0].date;
-    const [totalBill, setTotalBill] = useState<number>(0);
-    // {prescriptionData.map((test) => (
-    //     settotalBill(prevTotalPrice => prevTotalPrice + test.billvalue)
-    // ))};
+    const [totalBill, setTotalBill] = useState<number>(consultationFee);
+    
+    
     useEffect(() => {
-        const calculatedTotalBill = prescriptionData.reduce((total, test) => total + test.billvalue, 0);
+        const calculatedTotalBill = prescriptionData.reduce((total, test) => total + test.billvalue, consultationFee);
         setTotalBill(calculatedTotalBill);
       }, [prescriptionData]);
 
@@ -84,6 +85,13 @@ export default function Invoice(
                   <td className="border px-4 py-2">{formatCurrency(prescriptionData[index].billvalue)}</td>
                 </tr>
               ))}
+              <tr>
+                <td className="border px-4 py-2">{'#'}</td>
+                <td className="border px-4 py-2">{'Consultation fee'}</td>
+                <td className="border px-4 py-2">{'1'}</td>
+                <td className="border px-4 py-2">{formatCurrency(consultationFee)}</td>
+                <td className="border px-4 py-2">{formatCurrency(consultationFee)}</td>
+              </tr>
             </tbody>
           </table>
         </section>

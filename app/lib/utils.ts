@@ -16,6 +16,7 @@ export const formatDateToLocal = (
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    timeZone: 'Asia/Kolkata',
   };
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);

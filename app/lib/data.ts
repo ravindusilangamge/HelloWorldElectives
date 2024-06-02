@@ -589,6 +589,7 @@ export async function fetchPrescriptionsByDate() {
     //const today = new Date().toISOString().split('T')[0];
     const today: Date = new Date();
     const localDate: string = today.toLocaleDateString('en-CA');  
+    console.log('date: ',localDate);
     const data = await sql<VisitsTable>`
       SELECT
         visits.id,
@@ -641,14 +642,16 @@ export async function fetchStocks() {
 export async function fetchPatientsByVisit() {
   noStore();
   try {
-    const today = new Date().toISOString().split('T')[0];
+    //const today = new Date().toISOString().split('T')[0];
+    const today: Date = new Date();
+    const localDate: string = today.toLocaleDateString('en-CA');
     const data = await sql<PatientsTableType>`
       SELECT
         patientdetails.p_id,
         patientdetails.name
       FROM patientdetails
       JOIN visits ON patientdetails.p_id = visits.patient_id
-      WHERE DATE(visits.date) = ${today}
+      WHERE DATE(visits.datereal AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Kolkata') = ${localDate}
       AND visits.prescription IS NOT NULL;
     `;
 
