@@ -2,6 +2,7 @@ import { ViewPrescription, ViewBill } from '@/app/ui/invoices/buttons';
 import { fetchDrugsforForm, fetchPatientsByVisit, fetchPrescriptionsByDate, fetchVisitForPresById } from '@/app/lib/data';
 import InvoiceStatus from '@/app/ui/dispencer/status';
 import React from 'react';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 
 export default async function InvoicesTable() {
   //const invoices = await fetchFilteredInvoices(query, currentPage);
@@ -22,6 +23,20 @@ export default async function InvoicesTable() {
     const dateB = new Date(b.datereal);
     return dateA.getTime() - dateB.getTime();
   });
+
+  function datefix(date: string): string {
+    const date1: Date = new Date(date);
+    const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Asia/Kolkata',
+        hour12: false, // Use 24-hour format
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    return date1.toLocaleTimeString('en-US', options);
+}
+
+
 
   return (
     <div className="mt-6 flow-root">
@@ -61,6 +76,9 @@ export default async function InvoicesTable() {
                   Name
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
+                  Time
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
                   Prescription
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium text-center">
@@ -82,6 +100,9 @@ export default async function InvoicesTable() {
                   </td>
                   <td className="whitespace-normal px-3 py-3">
                     {todayPatients.find(test => test.p_id === visits.patient_id)?.name}
+                  </td>
+                  <td className="whitespace-normal px-3 py-3">
+                    {datefix(visits.datereal.toString())}
                   </td>
                   <td className="whitespace-normal px-3 py-3">
                     {visits.prescription?.map((test1, subIndex) => (

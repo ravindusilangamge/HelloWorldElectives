@@ -285,7 +285,7 @@ export async function updateInvoice(id: string, formData: FormData) {
       prescription: formData.get('prescription'),
     });
 
-    const dateReal = new Date().toISOString();
+    const dateReal = new Date();
     
     //const test = JSON.parse(prescription);
     let parsedPrescription = null;
