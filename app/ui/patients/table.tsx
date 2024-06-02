@@ -95,9 +95,9 @@ export default async function PatientsTable({
                 <th scope="col" className="px-3 py-5 font-medium">
                   Phone number
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                {/* <th scope="col" className="px-3 py-5 font-medium">
                   Address
-                </th>
+                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -109,31 +109,31 @@ export default async function PatientsTable({
                   key={patient.p_id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="whitespace-normal py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <p>{patient.p_id}</p>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-normal px-3 py-3">
                     {patient.name}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-normal px-3 py-3">
                   {patient.birthdate ? (
                       <>
                         {calculateAge(new Date(patient.birthdate)).years} Years {calculateAge(new Date(patient.birthdate)).months} M
                       </>
                     ) : null}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-normal px-3 py-3">
                     {patient.gender === 'male' ? 'Male' : patient.gender === 'female' ? 'Female' : patient.gender}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-normal px-3 py-3">
                     {patient.phonenumber}
                   </td>
-                  <td className="whitespace-normal px-3 py-3">
+                  {/* <td className="whitespace-nowrap px-3 py-3">
                     {patient.address}
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  </td> */}
+                  <td className="whitespace-normal py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <ViewPatient id = {patient.p_id}/>
                       <UpdatePatient id={patient.p_id} />
